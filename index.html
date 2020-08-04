@@ -1,10 +1,41 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Algorithm Visualizer</title>
+	<div>
+		<title>Algorithm Visualizer</title>
+	</div>
+	<link rel="stylesheet" href="style.css">
 </head>
 <body>
-	<canvas id="maincanvas" width="800" height="600"></canvas>
+	<div id="header">
+		<div id="title">
+			Algorithm Visualizer
+		</div>
+		<div id="header-right">
+			<div id = "slider">
+				<div id="slidecontainer">
+					<input type="range" min="10" max="270" value="100" class="slider" id="myRange">
+				</div>
+				<div id="slider_value">100</div>
+			</div>
+			<div>
+				<select id="sort_type" name="sort_type" >
+					<option value="bubble" selected>Bubble Sort</option>
+					<option value="selection">Selection Sort</option>
+					<option value="insertion">Insertion Sort</option>
+					<option value="merge">Merge Sort</option>
+				</select>
+			</div>
+		</div>
+	</div>
+	<div id="maincanvasdiv">
+		<canvas id="maincanvas" width="800" height="600"></canvas>
+	</div>
+	<div id="buttonsdiv">
+	<button id = "sort_button"><p>Sort</p></button>
+	<button id = "stop_button"><p>Stop</p></button>
+	</div>
+	
 	<script src = "script.js"></script> 
 </body>
 </html>

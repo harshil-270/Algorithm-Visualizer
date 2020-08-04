@@ -1,0 +1,169 @@
+body{
+    padding: 0;
+    margin: 0;
+    background-color: #212833;
+}
+#maincanvasdiv{
+    width: 100%;
+    height: 85vh;
+    position: relative;
+}
+#maincanvas{
+    position: absolute;
+    top: 15px;
+    right: 0;
+    left: 0;
+    margin: auto;
+}
+
+#header{
+    overflow: hidden;
+	background-color: white;
+    height: 70px;
+}
+
+
+
+
+#slider{
+    position: relative;
+    margin-left: 50px;
+    margin-top: -25px;
+    float: left;
+}
+.slidecontainer {
+    width: 100%; /* Width of the outside container */
+}
+.slider {
+    outline: none; /* Remove outline */
+    opacity: 0.7; /* Set transparency (for mouse-over effects on hover) */
+    -webkit-transition: .2s; /* 0.2 seconds transition on hover */
+    transition: opacity .2s;
+}
+
+.slider:hover {
+    opacity: 1; /* Fully shown on mouse-over */
+}
+.slider::-webkit-slider-thumb {
+    cursor: pointer; /* Cursor on hover */
+}
+
+#slider_value{
+    position: absolute;
+    top: 20px;
+    left: 55px;
+}
+
+
+
+
+
+#title{
+    text-align: center;
+    font-size: 27px;
+    color: black;
+    padding-top: 20px;;
+	font-weight: bold;
+	text-align: center;
+}
+#sort_type{
+    float: right;
+    margin-top: -25px;
+    margin-right: 50px;
+    height: 25px;
+    width: 120px;
+	border-radius: 15px;
+	background: #161824;
+    color: white;
+    outline: none;
+}
+
+
+
+
+
+#sort_button,#stop_button{
+	margin-top: 15px;
+	width: 130px;
+	height: 40px;
+	border-radius: 20px;
+	display: inline-block;
+    font-size: 20px;
+	padding-top: 20px 50px;
+	color: white;
+	border: none;
+	border-radius: 35px;
+	background: #161824;
+	box-shadow: 8px 8px 10px #12131c,
+			-8px -8px 10px #1c1e2c;
+	letter-spacing: 1.2px;
+	transition: all 0.25s ease-in-out;
+    outline: none;
+}
+#sort_button:hover,#stop_button:hover{
+	transform: scale(0.97);
+	font-size: 19px;
+	background: linear-gradient(
+		to bottom right,
+		#0b0d17,
+		#212333);
+}
+#sort_button > p,#stop_button > p{
+	margin-top: 8px;
+	margin-left: auto;
+	margin-right: auto;
+}
+#buttonsdiv{
+    text-align: center;
+    margin-bottom: 30px;
+}
+#sort_button{
+    margin-right: 10px;
+}
+#stop_button{
+    margin-left: 10px;
+}
+
+
+
+
+
+
+/* body{
+    padding: 0;
+    margin: 0;
+}
+#header{
+    overflow: hidden;
+    background-color: aqua;
+    padding: 20px 10px;;
+}
+#title{
+    float: left;
+    color: black;
+    text-align: center;
+    text-decoration: none;
+    padding-top: 15px;
+    margin-left: auto;
+    margin-right: auto;
+}
+#header-right{
+    float: right;
+}
+
+#slider{
+    position: relative;
+    padding-left: 30px;
+    padding-top: 15px;
+}
+#slidecontainer{
+}
+
+#slider_value{
+    position: absolute;
+    top: 20px;
+    left: 55px;
+}
+#sort_type{
+} */
+
