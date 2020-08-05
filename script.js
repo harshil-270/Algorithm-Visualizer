@@ -81,6 +81,7 @@ slider.oninput = function() {
     document.getElementById('slider_value').innerHTML = slider.value
     // console.log(slider.value)
     random_array_gen();
+    is_generated = true;
 }
 
 window.onload = function(){
