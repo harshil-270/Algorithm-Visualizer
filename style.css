@@ -1,11 +1,14 @@
-body{
+*{
     padding: 0;
     margin: 0;
+}
+
+body{
     background-color: #212833;
 }
 #maincanvasdiv{
     width: 100%;
-    height: 85vh;
+    height: 78vh;
     position: relative;
 }
 #maincanvas{
@@ -25,7 +28,7 @@ body{
 
 
 
-#slider{
+#slider_all{
     position: relative;
     margin-left: 50px;
     margin-top: -25px;
@@ -53,7 +56,35 @@ body{
     top: 20px;
     left: 55px;
 }
-
+#generate_button{
+    position: absolute;
+    top: 0px;
+    left: 145px;
+	border-radius: 20px;
+    font-size: 19px;
+    height: 20px;
+    width: 100px;
+	color: white;
+	border: none;
+	border-radius: 30px;
+	background: #161824;
+	box-shadow: 2px 2px 4px #12131c,
+			-2px -2px 4px #1c1e2c;
+	letter-spacing: 1.2px;
+	transition: all 0.25s ease-in-out;
+    outline: none;
+}
+#generate_button > p{
+    margin-top:-2px;
+}
+#generate_button:hover{
+	transform: scale(0.97);
+	font-size: 18px;
+	background: linear-gradient(
+		to bottom right,
+		#0b0d17,
+		#212333);
+}
 
 
 
@@ -64,7 +95,6 @@ body{
     color: black;
     padding-top: 20px;;
 	font-weight: bold;
-	text-align: center;
 }
 #sort_type{
     float: right;
@@ -125,7 +155,15 @@ body{
 }
 
 
+@media (max-width : 900px){
+    #title{
+        font-size: 0px;
+    }
+    #slider_all,#sort_type{
+        margin-top: 0px;;
+    }
 
+}
 
 
 
