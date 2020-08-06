@@ -1,6 +1,6 @@
 let canvas
 let canvasContext
-let n = 10
+let n = 150
 let line_width;
 var cnt = 0
 var a = new Array();
@@ -36,10 +36,6 @@ function generate_button(){
 
 function sort_function_caller(){
     type = document.getElementById('sort_type').value
-    if(type == 'print'){
-        console.log(a)
-        return
-    } 
     if(cur_type != "" && type != cur_type && is_generated == false){
         random_array_gen();
         cnt++;
@@ -192,10 +188,8 @@ function insertion_sort(){
     },1000/300);
 }
 
-function merge_sort(){
-
-    console.log('came')
-    console.log(n)
+function merge_sort()
+{
     let curr_size = 1
     let left_start = 0
     let mid = 0
@@ -205,119 +199,106 @@ function merge_sort(){
     let r = right_end
     let i = 0
     let j = 0
-    let k = 1
+    let k = l
     let n1 = m - l + 1
     let n2 = r - m
     let L = new Array()
     let R = new Array()
-    for (i = 0; i < n1; i++) 
-            L[i] = a[l + i]; 
+    for (i = 0; i < n1; i++) {
+        L[i] = a[l + i]; 
+    }
     for (j = 0; j < n2; j++) 
         R[j] = a[m + 1+ j]; 
-    let ok = 0
+        console.log(n1)
+    i = 0
+    j = 0
+    k = l
+    let oldcnt = cnt
+    // console.log(a)
     var mergerepeat = setInterval(() => {
-        if(ok == 1 && i >= n1 && j >= n2){
-            if(left_start + 2 * curr_size < n - 1){
-                left_start += 2 * curr_size
-                left_start = parseInt(left_start)
-                mid = Math.min(left_start + curr_size - 1, n-1); 
-                mid = parseInt(mid)
-                right_end = Math.min(left_start + 2*curr_size - 1, n-1); 
-                right_end = parseInt(right_end)
+        if(currently_running == true){
+            if(oldcnt != cnt){
+                draw(-1,-1,"green","green")
+                clearInterval(mergerepeat)
             }
-            else{
-                if(2 * curr_size <= n - 1){
-                    curr_size = 2 * curr_size
-                    left_start = 0
-                    left_start = parseInt(left_start)
-                    mid = Math.min(left_start + curr_size - 1, n-1); 
-                    mid = parseInt(mid)
+            else if(i >= n1 && j >= n2){
+                if(left_start + 2 * curr_size < n - 1){
+                    left_start += 2 * curr_size
+                    // console.log(left_start)
+                    mid = Math.min(left_start + curr_size - 1, n-1);
                     right_end = Math.min(left_start + 2*curr_size - 1, n-1); 
-                    right_end = parseInt(right_end)
                 }
                 else{
-                    console.log('Merge Sort completed')
-                    console.log(a)
-                    clearInterval(mergerepeat)
+                    if(2 * curr_size <= n - 1){
+                        curr_size = 2 * curr_size
+                        left_start = 0
+                        mid = Math.min(left_start + curr_size - 1, n-1); 
+                        right_end = Math.min(left_start + 2*curr_size - 1, n-1); 
+                    }
+                    else{
+                        draw(-1,-1,"green","green")
+                        console.log('Merge Sort completed')
+                        clearInterval(mergerepeat)
+                    }
                 }
-            }
 
-            l = left_start;
-            m = mid
-            r = right_end
-            n1 = m - l + 1; 
-            n2 = r - m;
-            // let L[n1], R[n2];
-            for (i = 0; i < n1; i++) 
-                L[i] = a[l + i]; 
-            for (j = 0; j < n2; j++) 
-                R[j] = a[m + 1+ j]; 
-            i = 0; 
-            j = 0; 
-            k = l; 
-        }
-        else{
-            if(i < n1 && j < n2){
-                if (L[i] <= R[j]) { 
+                l = left_start;
+                m = mid
+                r = right_end
+                n1 = m - l + 1; 
+                n2 = r - m;
+                // let L[n1], R[n2];
+                for (i = 0; i < n1; i++) 
+                    L[i] = a[l + i]; 
+                for (j = 0; j < n2; j++) 
+                    R[j] = a[m + 1+ j]; 
+                i = 0; 
+                j = 0; 
+                k = l; 
+            }
+            else{
+                if(l == 0 && r == 1){
+                    console.log(L,R)
+                }
+                if(i < n1 && j < n2){
+                    if (L[i] < R[j]) { 
+                        a[k] = L[i]; 
+                        i++; 
+                    } 
+                    else { 
+                        a[k] = R[j]; 
+                        j++; 
+                    } 
+                    k++; 
+                }    
+                else if(i < n1){
                     a[k] = L[i]; 
                     i++; 
-                } 
-                else { 
+                    k++;
+                }
+                else if(j < n2){
                     a[k] = R[j]; 
                     j++; 
-                } 
-                k++; 
-            }    
-            else if(i < n1){
-                a[k] = L[i]; 
-                i++; 
-                k++;
+                    k++;
+                }
             }
-            else if(j < n2){
-                a[k] = R[j]; 
-                j++; 
-                k++;
-            }
+            // console.log(l,r)
+            draw(k,-1,"red","red")
+            cur_type = 'merge'
         }
-        draw(k,-1,"red","red")
-        cur_type = 'merge'
-        ok = 1
-    },1000/300);
+    },1000/200);
 
-            // merge(arr, left_start, mid, right_end); 
+}
 
-
-            
-    //         while (i < n1 && j < n2) 
-    //         { 
-    //             if (L[i] <= R[j]) 
-    //             { 
-    //                 arr[k] = L[i]; 
-    //                 i++; 
-    //             } 
-    //             else
-    //             { 
-    //                 arr[k] = R[j]; 
-    //                 j++; 
-    //             } 
-    //             k++; 
-    //         }
-    //         while (i < n1) 
-    //         { 
-    //             arr[k] = L[i]; 
-    //             i++; 
-    //             k++; 
-    //         }
-    //         while (j < n2) 
-    //         { 
-    //             arr[k] = R[j]; 
-    //             j++; 
-    //             k++; 
-    //         } 
-    //     } 
-    // } 
+document.getElementById('generate_button').addEventListener('click',generate_button);
+document.getElementById('sort_button').addEventListener('click',sort_function_caller);
+document.getElementById('stop_button').addEventListener('click',function(){
+    currently_running = false
+});
 
 
+
+    // Merge sort not working
     // function merge(l, m, r) 
     // {
     //     let i, j, k; 
@@ -395,14 +376,8 @@ function merge_sort(){
     // }
     // console.log(a)
     // mergeSort(0,n - 1)
-}
 
 
-document.getElementById('generate_button').addEventListener('click',generate_button);
-document.getElementById('sort_button').addEventListener('click',sort_function_caller);
-document.getElementById('stop_button').addEventListener('click',function(){
-    currently_running = false
-});
 
 // bubble sort not working
 // for(i = 0; i < n; i++){
