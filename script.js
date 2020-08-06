@@ -79,6 +79,29 @@ function draw(aa,bb,color1,color2){
     }
 }
 
+function draw2(aa,bb,cc,color1,color2,color3){
+    canvasContext.fillStyle = "rgba(35,50,65,1)"
+    // canvasContext.fillStyle = 'black'
+    canvasContext.fillRect(0,0,canvas.width,canvas.height)
+    // console.log(n)
+    for(let ii = 0; ii < n; ii++){
+        if(ii == aa){
+            canvasContext.fillStyle = color1;
+        }
+        else if(ii == bb){
+            canvasContext.fillStyle = color2;
+        }
+        else if(ii == cc){
+            canvasContext.fillStyle = color3;
+        }
+        else{
+            canvasContext.fillStyle = 'white';
+        }
+        canvasContext.fillRect(ii * line_width,canvas.height - a[ii],line_width - 1 ,a[ii])
+    }
+}
+
+
 var slider = document.getElementById("myRange");
 slider.oninput = function() {
     document.getElementById('slider_value').innerHTML = slider.value
@@ -135,23 +158,23 @@ function selectionsort() {
         // console.log('came')
         if(currently_running == true){
             if(i >= n || oldcnt != cnt){
-                draw(-1,-1,"green","green")
+                draw2(-1,-1,-1,"green","green","green")
                 clearInterval(selectionrepeat);
             }
             j = j + 1
             if(j >= n){
                 swap(i,min_index);
-                draw(i,min_index,"red","green")
+                draw2(i,j,min_index,"blue","red","green")
                 i = i + 1
                 min_index = i
                 j = i
             }
             if(j < n)
-                draw(j,min_index,"red","green")
+                draw2(i,j,min_index,"blue","red","green")
             if(j < n && a[j] < a[min_index])
                 min_index = j;
             if(i >= n){
-                draw(-1,-1,"green","green")
+                draw2(-1,-1,-1,"green","green","green")
                 console.log("Selection sort completed : ")
             }
             cur_type = "selection"
