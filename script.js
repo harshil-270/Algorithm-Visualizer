@@ -281,9 +281,9 @@ function merge_sort()
                     j++; 
                     k++;
                 }
+                draw(k,-1,"red","red")
             }
             // console.log(l,r)
-            draw(k,-1,"red","red")
             cur_type = 'merge'
         }
     },1000/200);

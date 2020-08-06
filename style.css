@@ -27,7 +27,6 @@ body{
 
 
 
-
 #slider_all{
     position: relative;
     margin-left: 50px;
@@ -167,6 +166,8 @@ body{
 
 
 
+
+/* CSS not working*/
 /* body{
     padding: 0;
     margin: 0;
