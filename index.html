@@ -14,17 +14,18 @@
 		<div id="header-right">
 			<div id = "slider_all">
 				<div id="slidecontainer">
-					<input type="range" min="10" max="270" value="135" class="slider" id="myRange">
+					<input type="range" min="10" max="400" value="160" class="slider" id="myRange">
 				</div>
-				<div id="slider_value">135</div>
+				<div id="slider_value">160</div>
 				<button id="generate_button"><p>Generate</p></button>
 			</div>
 			<div>
 				<select id="sort_type" name="sort_type" >
-					<option value="bubble">Bubble Sort</option>
-					<option value="selection">Selection Sort</option>
-					<option value="insertion">Insertion Sort</option>
 					<option value="merge" selected>Merge Sort</option>
+					<option value="quick">Quick Sort</option>
+					<option value="selection">Selection Sort</option>
+					<option value="bubble">Bubble Sort</option>
+					<option value="insertion">Insertion Sort</option>
 				</select>
 			</div>
 		</div>
@@ -36,7 +37,9 @@
 	<button id = "sort_button"><p>Sort</p></button>
 	<button id = "stop_button"><p>Stop</p></button>
 	</div>
-	
+	<!-- <audio id="sound" controls = "controls">
+		<source src="sound/selection_sort3.mp3" />
+	</audio> -->
 	<script src = "script.js"></script> 
 </body>
 </html>
