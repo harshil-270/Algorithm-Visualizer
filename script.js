@@ -34,7 +34,7 @@ function generate_button(){
     random_array_gen()
 }
 // document.getElementById("sound").loop = true
-const mySound = document.getElementById("sound");
+// const mySound = document.getElementById("sound");
 function sort_function_caller(){
     type = document.getElementById('sort_type').value
     if(cur_type != "" && type != cur_type && is_generated == false){
@@ -172,7 +172,7 @@ function bubblesort(){
             }  
             if(i >= n) {
                 draw(-1,-1,"green","green")
-                mySound.pause()
+                //mySound.pause()
                 console.log('Bubble sort Completed')
             }
             cur_type = "bubble"
@@ -203,7 +203,7 @@ function selectionsort(){
                 min_index = j;
             if(i >= n){
                 draw2(-1,-1,-1,"green","green","green")
-                mySound.pause()
+                //mySound.pause()
                 console.log("Selection sort completed : ")
             }
             cur_type = "selection"
@@ -235,7 +235,7 @@ function insertion_sort(){
             }
             if(i >= n){
                 draw(-1,-1,"green","green");
-                mySound.pause()
+                //mySound.pause()
                 console.log("Insertion sort completed : ");
             }
             cur_type = "insertion";
