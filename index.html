@@ -2,42 +2,27 @@
 <html>
 <head>
 	<title>Algorithm Visualizer</title>
-	<link rel="stylesheet" href="style.css">
+	<link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 	<div id="header">
 		<div id="title">
 			Algorithm Visualizer
 		</div>
-		<div id="header-right">
-			<div id = "slider_all">
-				<div id="slidecontainer">
-					<input type="range" min="10" max="400" value="160" class="slider" id="myRange">
-				</div>
-				<div id="slider_value">160</div>
-				<button id="generate_button"><p>Generate</p></button>
-			</div>
-			<div>
-				<select id="sort_type" name="sort_type" >
-					<option value="merge" selected>Merge Sort</option>
-					<option value="quick">Quick Sort</option>
-					<option value="selection">Selection Sort</option>
-					<option value="bubble">Bubble Sort</option>
-					<option value="insertion">Insertion Sort</option>
-				</select>
-			</div>
+	</div>
+	<div id="main">
+		<div id="container1">
+			<a href="sorting.html" class="category_link">
+				<img src="src/sorting4.PNG" id="sort_image" width="500px" height="330px">
+				<div id="text1">Sorting Visulizer</div>
+			</a>
+		</div>
+		<div id="container2">
+			<a href="graph.html" class="category_link">
+				<img src="src/graph2.PNG" id="graph_image" width="500px" height="330px">
+				<div id="text2">Path Finding Visualizer</div>
+			</a>
 		</div>
 	</div>
-	<div id="maincanvasdiv">
-		<canvas id="maincanvas" width="800" height="550"></canvas>
-	</div>
-	<div id="buttonsdiv">
-	<button id = "sort_button"><p>Sort</p></button>
-	<button id = "stop_button"><p>Stop</p></button>
-	</div>
-	<!-- <audio id="sound" controls = "controls">
-		<source src="sound/selection_sort3.mp3" />
-	</audio> -->
-	<script src = "script.js"></script> 
 </body>
 </html>
