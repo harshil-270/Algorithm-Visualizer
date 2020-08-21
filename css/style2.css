@@ -103,32 +103,30 @@ body{
     background-color: red;
 }
 
+
 .grid td.visited {
     background-color:orange;
-    /* animation: visited_animation 0.5s 1; */
+    animation: visited_animation 2s 1;
 }
 
 @keyframes visited_animation{
     from{
-        width: 1px;
-        height: 1px;
+        border-radius: 5px;
         background-color: purple;
     }
     to{
-        width: 7px;
-        height: 7px;
+        border-radius: 0px;
         background-color: orange;
     }
 }
 
 .grid td.path {
     background-color:rgb(128, 0, 167);
-    animation: change_color 1.3s 1;
+    animation: change_color 1.5s 1;
 }
 @keyframes change_color{
     from {
         background-color: rgb(0, 255, 229);
-        /* background-color:rgb(51, 228, 255); */
     }
     to{
         background-color: rgb(128, 0, 167);
