@@ -92,7 +92,7 @@ body{
     font-family:sans-serif; font-size:13px
 }
 .grid td.clicked {
-    background-color: rgb(64, 64, 84);
+    background-color: rgb(47, 40, 40);
 }
 
 .grid td.start_point {
@@ -108,5 +108,15 @@ body{
 }
 
 .grid td.path {
-    background-color:purple;
+    background-color:rgb(128, 0, 167);
+    animation: change_color 1.3s 1;
+}
+@keyframes change_color{
+    from {
+        background-color: rgb(0, 255, 229);
+        /* background-color:rgb(51, 228, 255); */
+    }
+    to{
+        background-color: rgb(128, 0, 167);
+    }
 }
