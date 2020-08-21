@@ -233,7 +233,7 @@ function BFS(){
         
         
     
-    },1000/60);
+    },1000/70);
 }
 
 function DFS(){    
@@ -293,7 +293,7 @@ function DFS(){
             vis[i - 1][j] = 1;
             path[i - 1][j] = "D";
         }
-    },1000/60);
+    },1000/70);
 }
 
 function algorithm_caller(){

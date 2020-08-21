@@ -105,6 +105,20 @@ body{
 
 .grid td.visited {
     background-color:orange;
+    /* animation: visited_animation 0.5s 1; */
+}
+
+@keyframes visited_animation{
+    from{
+        width: 1px;
+        height: 1px;
+        background-color: purple;
+    }
+    to{
+        width: 7px;
+        height: 7px;
+        background-color: orange;
+    }
 }
 
 .grid td.path {
