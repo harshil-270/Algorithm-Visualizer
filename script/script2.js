@@ -8,11 +8,12 @@ for(let i = 0; i < rows; i++){
     grid[i] = new Array(cols).fill(0);
     data[i] = new Array(cols);
 }
-
+let currently_running = false;
 let starting_point_i = 9;
 let starting_point_j = 14;
 let ending_point_i = 9;
 let ending_point_j = 24;
+
 
 class Queue
 { 
@@ -109,6 +110,7 @@ function clickableGrid( rows, cols, callback ){
 
 function clear_grid(){
     cnt++;
+    currently_running = false;
     for(let i = 0; i < rows; i++){
         for(let j = 0; j < cols; j++){
             if((i == starting_point_i && j == starting_point_j) || (i == ending_point_i && j == ending_point_j));
@@ -118,6 +120,7 @@ function clear_grid(){
             grid[i][j] = 0;
         }
     }
+
 }
 
 function printpath(path){
@@ -157,10 +160,10 @@ function printpath(path){
     curj = starting_point_j;
     let i = 0;
     let oldcnt = cnt;
+    let speed = 20;
+    if(s.length > 50)
+        speed = 40;
     let pathrepeater = setInterval(() => {
-        if(cnt != oldcnt){
-            clearInterval(pathrepeater)
-        }
         curi += (s[i] == "D");
         curi -= (s[i] == "U");
         curj += (s[i] == "R");
@@ -168,9 +171,14 @@ function printpath(path){
         data[curi][curj].className = 'path';
         i++;
         if(i >= s.length - 1){
+            currently_running = false;
             clearInterval(pathrepeater);
         }
-    },1000/20);
+        if(oldcnt != cnt){
+            clear_grid();
+            clearInterval(pathrepeater);
+        }
+    },1000/speed);
 }
 
 function BFS(){
@@ -194,8 +202,9 @@ function BFS(){
     path[starting_point_i][starting_point_j] = "1";
     let oldcnt = cnt;
     let bfsrepeater = setInterval(() => {
-        if(oldcnt != cnt){
-            clearInterval(bfsrepeater)
+        if(q.isEmpty() == 1){
+            clearInterval(bfsrepeater);
+            currently_running = false;
         }
         let p = q.front();
         q.dequeue();
@@ -230,9 +239,10 @@ function BFS(){
             vis[i][j - 1] = 1;
             path[i][j - 1] = "R";
         }
-        
-        
-    
+        if(oldcnt != cnt){
+            clear_grid();
+            clearInterval(bfsrepeater);
+        }
     },1000/70);
 }
 
@@ -257,8 +267,9 @@ function DFS(){
     path[starting_point_i][starting_point_j] = "1";
     let oldcnt = cnt;
     let dfsrepeater = setInterval(() => {
-        if(oldcnt != cnt){
+        if(s.length == 0){
             clearInterval(dfsrepeater);
+            currently_running = false;
         }
         let p = s[s.length - 1];
         s.pop();
@@ -293,12 +304,19 @@ function DFS(){
             vis[i - 1][j] = 1;
             path[i - 1][j] = "D";
         }
+        if(oldcnt != cnt){
+            clear_grid();
+            clearInterval(bfsrepeater);
+        }
     },1000/70);
 }
 
 function algorithm_caller(){
+    if(currently_running == true){
+        return
+    }
     type = document.getElementById('algorithm_type').value
-    cnt++;
+    currently_running = true;
     if(type == 'dfs'){
         DFS();
     }

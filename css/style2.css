@@ -86,7 +86,8 @@ body{
 .grid td {
     cursor:pointer;
     width:30px; height:30px;
-    border:1px solid #ccc;
+    /* border:1px solid #ccc; */
+    border: 1px solid rgb(114, 161, 236);
     text-align:center;
     background-color:white;
     font-family:sans-serif; font-size:13px
