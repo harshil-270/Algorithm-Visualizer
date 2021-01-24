@@ -1,11 +1,11 @@
 let rows = 20,cols = 40;
 let mouseIsDown = false;
 
-let grid = new Array(rows);
+let isBlocked = new Array(rows);
 let data = new Array(rows);
 
 for(let i = 0; i < rows; i++){
-    grid[i] = new Array(cols).fill(0);
+    isBlocked[i] = new Array(cols).fill(0);
     data[i] = new Array(cols);
 }
 
@@ -65,7 +65,6 @@ class PriorityQueue {
     }
 }
 
-
 class Queue { 
     constructor() {
         this.values = []; 
@@ -90,22 +89,20 @@ class Queue {
 
 
 
-
-
 var grid_manager = clickableGrid(rows,cols,function(el,row,col,i){
     if(row == startingPointX && col == startingPointY){
 
     }
     else if(row == endingPointX && col == endingPointY){
-
+        
     }
     else if(el.className == 'clicked'){
         el.className = '';
-        grid[row][col] = 0;
+        isBlocked[row][col] = 0;
     }
     else{
         el.className = 'clicked';
-        grid[row][col] = 1;
+        isBlocked[row][col] = 1;
     }
 });
 
@@ -268,7 +265,7 @@ function BFS(){
         for (let i = 0; i < 4; i++) {
             let newX = x + dx[i];
             let newY = y + dy[i];
-            if(isValid(newX, newY) && grid[newX][newY] === 0 && vis[newX][newY] === 0){
+            if(isValid(newX, newY) && isBlocked[newX][newY] === 0 && vis[newX][newY] === 0){
                 q.enqueue([newX, newY]);
                 vis[newX][newY] = 1;
                 path[newX][newY] = direction[i];
@@ -333,7 +330,7 @@ function DFS(){
         for (let i = 0; i < 4; i++) {
             let newX = x + dx[i];
             let newY = y + dy[i];
-            if(isValid(newX, newY) && grid[newX][newY] === 0 && vis[newX][newY] === 0){
+            if(isValid(newX, newY) && isBlocked[newX][newY] === 0 && vis[newX][newY] === 0){
                 s.push([newX, newY]);
                 vis[newX][newY] = 1;
                 path[newX][newY] = direction[i];
@@ -417,7 +414,7 @@ function AStar() {
         for (let i = 0; i < 4; i++) {
             let newX = x + dx[i];
             let newY = y + dy[i];
-            if(isValid(newX, newY) && grid[newX][newY] === 0 && vis[newX][newY] === 0){
+            if(isValid(newX, newY) && isBlocked[newX][newY] === 0 && vis[newX][newY] === 0){
                 let newNode = {};
                 newNode.g = p.g + 1;
                 newNode.h = findDistance(newX, newY, endingPointX, endingPointY) ;
@@ -441,6 +438,7 @@ function AStar() {
     },1000 / 70);
 } 
 
+
 function algorithmCaller(){
     if(currentlyRunning == true){
         return ;
@@ -459,7 +457,6 @@ function algorithmCaller(){
     }
 }
 
-
 function clearGrid(){
     currentlyRunning = false;
     for(let i = 0; i < rows; i++){
@@ -468,7 +465,7 @@ function clearGrid(){
             else{
                 data[i][j].className = '';
             }
-            grid[i][j] = 0;
+            isBlocked[i][j] = 0;
         }
     }
 }
