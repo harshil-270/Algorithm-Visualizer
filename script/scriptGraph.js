@@ -369,11 +369,9 @@ function AStar() {
     }
     let vis = new Array(rows);
     let path = new Array(rows);
-    let fValue = new Array(rows);
     for(let i = 0; i < rows; i++){
         vis[i] = new Array(cols).fill(0);
         path[i] = new Array(cols).fill("0");
-        fValue[i] = new Array(cols).fill(-1) ;
     }
 
     let defaultNode = {
@@ -471,5 +469,5 @@ function clearGrid(){
     }
 }
 
-document.getElementById('visualize_button').addEventListener('click',algorithmCaller);
-document.getElementById('clear_button').addEventListener('click',clearGrid);
+document.getElementById('visualizeButton').addEventListener('click',algorithmCaller);
+document.getElementById('clearButton').addEventListener('click',clearGrid);

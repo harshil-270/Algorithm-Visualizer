@@ -1,25 +1,24 @@
-let canvas
-let canvasContext
-let n = 135
+let canvas ;
+let canvasContext ;
+let n = 135 ;
 let lineWidth;
-var cnt = 0
-var a = new Array();
-var curType = ""
-var currentlyRunning = false
-var isGenerated = false
+var cnt = 0 ;
+var a = new Array() ;
+var curType = "" ;
+var currentlyRunning = false ;
+var isGenerated = false ;
 function randomvalue(min,max){
     return Math.random() * (max - min) + min;
 }
 
 function randomArrayGenerator(){
-    cnt++
-    n = slider.value
-    lineWidth = canvas.width / n
+    cnt++ ;
+    n = slider.value ;
+    lineWidth = canvas.width / n ;
     for(let i = 0; i < n; i++){
-        a[i] = parseInt(randomvalue(1,canvas.height))
-        // console.log(a[i])
-    }
-    draw(-1,-1,"green")
+        a[i] = parseInt(randomvalue(1,canvas.height)) ;
+    } 
+    draw(-1,-1,"green") ;
 }
 
 function swap(i,minindex){
@@ -390,11 +389,11 @@ function quickSort(){
                 }
             }
         }
-    },1000/100);
+    },1000 / 100);
 }
 
 document.getElementById('generateButton').addEventListener('click', generateButton);
 document.getElementById('sortButton').addEventListener('click', sortFunctionCaller);
-document.getElementById('stopButton').addEventListener('click', function() {
+document.getElementById('stopButton').addEventListener('click', function(){
     currentlyRunning = false ;
 });
