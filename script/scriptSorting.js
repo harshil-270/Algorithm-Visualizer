@@ -7,6 +7,8 @@ var a = new Array() ;
 var curType = "" ;
 var currentlyRunning = false ;
 var isGenerated = false ;
+
+
 function randomvalue(min,max){
     return Math.random() * (max - min) + min;
 }
@@ -22,25 +24,22 @@ function randomArrayGenerator(){
 }
 
 function swap(i,minindex){
-    let temp = a[i];
-    a[i] = a[minindex]
-    a[minindex] = temp;
+    [a[i], a[minindex]] = [a[minindex], a[i]] ;
 }
 
 function generateButton(){
-    currentlyRunning = false
-    isGenerated = true
-    randomArrayGenerator()
+    currentlyRunning = false ;
+    isGenerated = true ;
+    randomArrayGenerator() ;
 }
 
 function sortFunctionCaller(){
-    type = document.getElementById('sort_type').value
+    type = document.getElementById('sort_type').value ;
     if(curType != "" && type != curType && isGenerated == false){
         randomArrayGenerator();
         cnt++;
     }
-    // mySound.play()  
-    currentlyRunning = true
+    currentlyRunning = true ;
     if(curType == type && isGenerated == false){
         return
     }
@@ -63,45 +62,7 @@ function sortFunctionCaller(){
     }
 }
 
-function draw(aa,bb,color1,color2){
-    canvasContext.fillStyle = "rgba(35,50,65,1)";
-    canvasContext.fillRect(0,0,canvas.width,canvas.height);
-    
-    for(let ii = 0; ii < n; ii++){
-        if(ii == aa){
-            canvasContext.fillStyle = color1;
-        }
-        else if(ii == bb){
-            canvasContext.fillStyle = color2;
-        }
-        else{
-            canvasContext.fillStyle = 'white';
-        }
-        canvasContext.fillRect(ii * lineWidth,canvas.height - a[ii],lineWidth - 1 ,a[ii])
-    }
-}
-
-function draw2(aa,bb,cc,color1,color2,color3){
-    canvasContext.fillStyle = "rgba(35,50,65,1)" ;
-    canvasContext.fillRect(0,0,canvas.width,canvas.height)
-    
-    for(let ii = 0; ii < n; ii++){
-        if(ii == aa){
-            canvasContext.fillStyle = color1;
-        }
-        else if(ii == bb){
-            canvasContext.fillStyle = color2;
-        }
-        else if(ii == cc){
-            canvasContext.fillStyle = color3;
-        }
-        else{
-            canvasContext.fillStyle = 'white';
-        }
-        canvasContext.fillRect(ii * lineWidth,canvas.height - a[ii],lineWidth - 1 ,a[ii])
-    }
-}
-function draw3(aa,bb,cc,dd,color1,color2,color3,color4){
+function draw(aa, bb, cc, dd, color1, color2, color3, color4){
     canvasContext.fillStyle = "rgba(35,50,65,1)"
     canvasContext.fillRect(0,0,canvas.width,canvas.height)
     
@@ -144,85 +105,85 @@ window.onload = function(){
 }
 
 function bubbleSort(){
-    let i = 0,j = 0,oldcnt= cnt
+    let i = 0, j = 0, oldcnt= cnt ;
     var bubblerepeat = setInterval(() => {
         if(currentlyRunning == true){
-            if(i >= n || cnt != oldcnt){
-                draw(-1,-1,"green","green")
+            if(i >= n || cnt != oldcnt) {
+                draw(-1, -1, -1, -1, "", "", "" ,"") ;
                 clearInterval(bubblerepeat);
             }
-            j = j + 1
+            j = j + 1 ;
             if(j >= n - i - 1){
-                i = i + 1
-                j = 0
+                i = i + 1 ;
+                j = 0 ;
             }
-            draw(j,j + 1,"red","red")
+            draw(j, j + 1, -1, -1,"red", "red", "", "")
             if(j + 1 < n && i < n && a[j] > a[j + 1]) {
-                swap(j,j + 1)
-                draw(j,j + 1,"red","red")
+                swap(j, j + 1) ;
+                draw(j, j + 1, -1, -1, "red", "red", "", "") ;
             }  
             if(i >= n) {
-                draw(-1,-1,"green","green")
-                console.log('Bubble sort Completed')
+                draw(-1, -1, -1, -1, "", "", "", "") ;
+                console.log('Bubble sort Completed') ;
             }
-            curType = "bubble"
+            curType = "bubble" ;
         }
     }, 1000/300);
 }
 
 function selectionSort(){
-    let i = 0, j = 0,min_index = 0,oldcnt = cnt
+    let i = 0, j = 0, min_index = 0, oldcnt = cnt ;
     var selectionrepeat = setInterval(()=>{
         if(currentlyRunning == true){
-            if(i >= n || oldcnt != cnt){
-                draw2(-1,-1,-1,"green","green","green")
+            if(i >= n || oldcnt != cnt) {
+                draw(-1, -1, -1, -1, "", "", "", "") ;
                 clearInterval(selectionrepeat);
             }
             j = j + 1
             if(j >= n){
                 swap(i,min_index);
-                draw2(i,j,min_index,"blue","red","green")
+                draw(i, j, min_index, -1, "blue", "red", "green", "") ;
                 i = i + 1
                 min_index = i
                 j = i
             }
             if(j < n)
-                draw2(i,j,min_index,"blue","red","green")
+                draw(i, j, min_index, -1, "blue", "red", "green", "") ;
             if(j < n && a[j] < a[min_index])
                 min_index = j;
             if(i >= n){
-                draw2(-1,-1,-1,"green","green","green")
-                console.log("Selection sort completed : ")
+                draw(-1, -1, -1, -1, "", "", "", "") ;
+                console.log("Selection sort completed : ") ;
             }
-            curType = "selection"
+            curType = "selection" ;
         }
     },1000/300);
 }
 
 function insertionSort(){
-    let i = 0, j = -1,oldcnt = cnt;
-    a[n + 1] = a[0]
+    let i = 0, j = -1, oldcnt = cnt;
+    a[n + 1] = a[0] ;
     var insertionrepeat = setInterval(() => {
-        if(currentlyRunning == true){
-            if(i >= n || oldcnt != cnt){
-                draw(-1,-1,"green","green");
+        if(currentlyRunning == true) {
+            if(i >= n || oldcnt != cnt) {
+                draw(-1, -1, -1, -1, "", "", "", "") ;
                 clearInterval(insertionrepeat);
             }
 
             if(i < n && j >= 0 && a[j] > a[n + 1]){
                 swap(j,j + 1);
-                draw(j + 1,i,"red","green");
+                draw(j + 1, i, -1, -1, "red", "green", "", "");
                 j--;
             }
             else if(i < n){
                 swap(n + 1,j + 1);
-                draw(j + 1,i,"red","green");
+                draw(j + 1, i, -1, -1, "red", "green", "", "");
                 i++;
-                a[n + 1] = a[i]
+                a[n + 1] = a[i] ;
                 j = i - 1;
             }
             if(i >= n){
-                draw(-1,-1,"green","green");
+                draw(-1, -1, -1, -1, "", "", "", "") ;
                 console.log("Insertion sort completed : ");
             }
             curType = "insertion";
@@ -259,7 +220,7 @@ function mergeSort(){
     var mergerepeat = setInterval(() => {
         if(currentlyRunning == true){
             if(oldcnt != cnt){
-                draw(-1,-1,"green","green")
+                draw(-1, -1, -1, -1, "", "", "", "") ;
                 clearInterval(mergerepeat)
             }
             else if(i >= n1 && j >= n2){
@@ -276,7 +237,7 @@ function mergeSort(){
                         right_end = Math.min(left_start + 2*curr_size - 1, n-1); 
                     }
                     else{
-                        draw(-1,-1,"green","green")
+                        draw(-1, -1, -1, -1, "", "", "", "") ;
                         console.log('Merge Sort completed')
                         clearInterval(mergerepeat)
                     }
@@ -321,69 +282,69 @@ function mergeSort(){
                     j++; 
                     k++;
                 }
-                draw(k,-1,"red","red")
+                draw(k, -1, -1, -1, "red", "", "", "") ;
             }
-            curType = 'merge'
+            curType = 'merge' ;
         }
     },1000/150);
 
 }
 
 function quickSort(){
-    let l = 0
-    let h = n - 1
-    let stack = new Array()
-    let top = -1
-    stack[++top] = l
-    stack[++top] = h
-    let j = 100000
+    let l = 0 ;
+    let h = n - 1 ;
+    let stack = new Array() ;
+    let top = -1 ;
+    stack[++top] = l ;
+    stack[++top] = h ;
+    let j = 100000 ;
     let x = 0;
     let i = 0;
     let partition = 0 ;
-    let calculated = 0
+    let calculated = 0 ;
     let oldcnt = cnt;
     var quickrepeat = setInterval(() => {
-        if(currentlyRunning == true){
+        if(currentlyRunning == true) {
             if(oldcnt != cnt){
-                draw3(-1,-1,-1,-1,"green","green","green","green")
+                draw(-1, -1, -1, -1, "", "", "", "") ;
                 clearInterval(quickrepeat)
             }
             if(calculated == 1 && j <= h - 1){
                 if(a[j] <= x){
                     i++;
-                    swap(i,j)
+                    swap(i, j) ;
                 }
-                draw3(-1,i,j,-1,"blue","red","red","blue")
-                j = j + 1
+                draw(i, j, -1, -1, "red", "red", "", "") ;
+                j = j + 1 ;
             }
-            else{
+            else {
                 if(top >= 0 || calculated == 1){
                     if(calculated == 0){
-                        h = stack[top--]
-                        l = stack[top--]
-                        x = a[h]
-                        i = l - 1
-                        j = l
-                        calculated = 1
+                        h = stack[top--] ;
+                        l = stack[top--] ; 
+                        x = a[h] ;
+                        i = l - 1 ;
+                        j = l ;
+                        calculated = 1 ;
                     }
-                    else{
-                        calculated = 0
-                        swap(i + 1,h)
-                        partition = i + 1
+                    else {
+                        calculated = 0 ;
+                        swap(i + 1, h) ;
+                        partition = i + 1 ;
                         let p = partition;
-                        if(p - 1 > l){
-                            stack[++top] = l
-                            stack[++top] = p - 1
+                        if(p - 1 > l) {
+                            stack[++top] = l ;
+                            stack[++top] = p - 1 ;
                         }
-                        if(p + 1 < h){
+                        if(p + 1 < h) {
                             stack[++top] = p + 1;
                             stack[++top] = h;
                         }
-                        j = 100000
+                        j = 100000 ;
                     }
                 }
                 else{
-                    draw3(-1,-1,-1,-1,"green","green","green","green")
+                    draw(-1, -1, -1, -1, "", "", "", "") ;
                     console.log('Quick Sort completed : ')
                     clearInterval(quickrepeat)
                 }
