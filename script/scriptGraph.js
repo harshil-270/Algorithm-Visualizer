@@ -1,5 +1,3 @@
-var lastClicked;
-
 let rows = 20,cols = 40;
 let mouseIsDown = false;
 
@@ -11,14 +9,13 @@ for(let i = 0; i < rows; i++){
     data[i] = new Array(cols);
 }
 
-let currently_running = false;
+let currentlyRunning = false;
 let foundPath = false;
 
-let starting_point_i = 9;
-let starting_point_j = 14;
-let ending_point_i = 9;
-let ending_point_j = 24;
-
+let startingPointX = 9;
+let startingPointY = 14;
+let endingPointX = 9;
+let endingPointY = 24;
 
 
 
@@ -34,13 +31,6 @@ class PriorityQueue {
         while (index >= 1 && this.comparator(this.values[index], this.values[ Math.floor(index / 2) ] ) ) {
             [this.values[index], this.values[Math.floor(index / 2) ]] = [this.values[Math.floor(index / 2) ], this.values[index]] ;
             index = Math.floor(index / 2) ;
-            if(index >= 1) {
-                if(this.values[Math.floor(index / 2)] == undefined) {
-                    for(let i = 0; i < this.values.length; i++) {
-                        console.log(i, this.values[i]);
-                    }
-                }
-            }
         }
     }
     getTop() {
@@ -103,10 +93,10 @@ class Queue {
 
 
 var grid_manager = clickableGrid(rows,cols,function(el,row,col,i){
-    if(row == starting_point_i && col == starting_point_j){
+    if(row == startingPointX && col == startingPointY){
 
     }
-    else if(row == ending_point_i && col == ending_point_j){
+    else if(row == endingPointX && col == endingPointY){
 
     }
     else if(el.className == 'clicked'){
@@ -143,10 +133,10 @@ function clickableGrid( rows, cols, callback ){
         var tr = grid.appendChild(document.createElement('tr'));
         for (var c=0;c<cols;++c){
             var cell = tr.appendChild(document.createElement('td'));
-            if(r == starting_point_i && c == starting_point_j){
+            if(r == startingPointX && c == startingPointY){
                 cell.className = 'start_point';
             }
-            else if(r == ending_point_i && c == ending_point_j){
+            else if(r == endingPointX && c == endingPointY){
                 cell.className = 'end_point';
             }
             cell.addEventListener('mouseover',(function(el,r,c,i){
@@ -172,9 +162,9 @@ function isValid(x, y) {
     return (x >= 0 && y >= 0 && x < rows && y < cols) ;
 }
 
-function printpath(path){
+function printPath(path){
     console.log("Algorithm finished. Printing path");
-    if(currently_running === false) {
+    if(currentlyRunning === false) {
         console.log('')
     }
     if(foundPath === false) {
@@ -184,10 +174,10 @@ function printpath(path){
 
     let s = "";
     
-    let curi = ending_point_i;
-    let curj = ending_point_j;
+    let curi = endingPointX;
+    let curj = endingPointY;
     
-    while( ! (curi == starting_point_i && curj == starting_point_j) ){
+    while( ! (curi == startingPointX && curj == startingPointY) ){
         if(path[curi][curj] == "D"){
             s += "U";
             curi++;
@@ -208,8 +198,8 @@ function printpath(path){
     s = s.split("").reverse().join("");
     console.log(s);
 
-    curi = starting_point_i;
-    curj = starting_point_j;
+    curi = startingPointX;
+    curj = startingPointY;
     let i = 0;
     
     let speed = 20;
@@ -223,11 +213,11 @@ function printpath(path){
         data[curi][curj].className = 'path';
         i++;
         
-        if(currently_running === false){
+        if(currentlyRunning === false){
             clearInterval(pathrepeater);
         }
         if(i >= s.length - 1){
-            currently_running = false;
+            currentlyRunning = false;
             clearInterval(pathrepeater);
         }
     },1000/speed);
@@ -249,28 +239,28 @@ function BFS(){
     }
 
     let q = new Queue();
-    q.enqueue([starting_point_i,starting_point_j]);
-    vis[starting_point_i][starting_point_j] = 1;
-    path[starting_point_i][starting_point_j] = "1";
+    q.enqueue([startingPointX,startingPointY]);
+    vis[startingPointX][startingPointY] = 1;
+    path[startingPointX][startingPointY] = "1";
     
 
     let dx = [1,0,-1,0] ;
     let dy = [0,1,0,-1] ;
     let direction = ["U", "L", "D", "R"] ;
 
-    let bfsrepeater = setInterval(() => {
+    let bfsRepeater = setInterval(() => {
 
         let p = q.front();
         q.dequeue();
         let x = p[0];
         let y = p[1];
         
-        if(x == ending_point_i && y == ending_point_j){
-            clearInterval(bfsrepeater);
+        if(x == endingPointX && y == endingPointY){
+            clearInterval(bfsRepeater);
             foundPath = true;    
-            printpath(path);
+            printPath(path);
         }
-        else if( ! (x == starting_point_i && y == starting_point_j)){
+        else if( ! (x == startingPointX && y == startingPointY)){
             data[x][y].className = 'visited';
         }
 
@@ -283,12 +273,12 @@ function BFS(){
                 path[newX][newY] = direction[i];
             }
         }
-        if(currently_running === false){
-            clearInterval(bfsrepeater);
+        if(currentlyRunning === false){
+            clearInterval(bfsRepeater);
         }
         if(q.isEmpty() == 1){
-            clearInterval(bfsrepeater);
-            currently_running = false;
+            clearInterval(bfsRepeater);
+            currentlyRunning = false;
         }
     },1000/70);
 }
@@ -309,9 +299,9 @@ function DFS(){
     }
 
     let s = [];
-    s.push([starting_point_i,starting_point_j]);
-    vis[starting_point_i][starting_point_j] = 1;
-    path[starting_point_i][starting_point_j] = "1";
+    s.push([startingPointX,startingPointY]);
+    vis[startingPointX][startingPointY] = 1;
+    path[startingPointX][startingPointY] = "1";
     
 
     let dx = [0,-1,0,1] ;
@@ -319,7 +309,7 @@ function DFS(){
     let direction = ["R", "D", "L", "U"] ;
 
 
-    let dfsrepeater = setInterval(() => {
+    let dfsRepeater = setInterval(() => {
         //get top of element of stack
         let p = s[s.length - 1];
         s.pop();
@@ -327,14 +317,14 @@ function DFS(){
         let y = p[1];
         
         //if dfs is completed then print the path
-        if(x == ending_point_i && y == ending_point_j){
-            clearInterval(dfsrepeater);
+        if(x == endingPointX && y == endingPointY){
+            clearInterval(dfsRepeater);
             foundPath = true;
-            printpath(path);
+            printPath(path);
         }
 
         //change visual of current cell. we visited it.
-        else if(! (x == starting_point_i && y == starting_point_j)){
+        else if(! (x == startingPointX && y == startingPointY)){
             data[x][y].className = 'visited';
         }
 
@@ -349,11 +339,11 @@ function DFS(){
         }
 
         if(s.length === 0){
-            clearInterval(dfsrepeater);
-            currently_running = false;
+            clearInterval(dfsRepeater);
+            currentlyRunning = false;
         }
-        if(currently_running === false) {
-            clearInterval(dfsrepeater) ;
+        if(currentlyRunning === false) {
+            clearInterval(dfsRepeater) ;
         }
     },1000/70);
 }
@@ -397,13 +387,13 @@ function AStar() {
 
     let newNode = defaultNode;
     newNode.g = 0;
-    newNode.h = findDistance(starting_point_i, starting_point_j, ending_point_i, ending_point_j);
+    newNode.h = findDistance(startingPointX, startingPointY, endingPointX, endingPointY);
     newNode.f = newNode.g + newNode.h;
-    newNode.x = starting_point_i;
-    newNode.y = starting_point_j;
+    newNode.x = startingPointX;
+    newNode.y = startingPointY;
     pq.add(newNode);
-    vis[starting_point_i][starting_point_j] = 1;
-    path[starting_point_i][starting_point_j] = "1";
+    vis[startingPointX][startingPointY] = 1;
+    path[startingPointX][startingPointY] = "1";
     
     let dx = [1,0,-1,0] ;
     let dy = [0,1,0,-1] ;
@@ -415,12 +405,12 @@ function AStar() {
         let x = p.x;
         let y = p.y;
         
-        if(x == ending_point_i && y == ending_point_j){
+        if(x == endingPointX && y == endingPointY){
             clearInterval(AStarRepeater);
             foundPath = true;    
-            printpath(path);
+            printPath(path);
         }
-        else if( ! (x == starting_point_i && y == starting_point_j)){
+        else if( ! (x == startingPointX && y == startingPointY)){
             data[x][y].className = 'visited';
         }
         for (let i = 0; i < 4; i++) {
@@ -429,7 +419,7 @@ function AStar() {
             if(isValid(newX, newY) && grid[newX][newY] === 0 && vis[newX][newY] === 0){
                 let newNode = {};
                 newNode.g = p.g + 1;
-                newNode.h = findDistance(newX, newY, ending_point_i, ending_point_j) ;
+                newNode.h = findDistance(newX, newY, endingPointX, endingPointY) ;
                 newNode.f = newNode.g + newNode.h;
                 newNode.x = newX;
                 newNode.y = newY;
@@ -439,22 +429,22 @@ function AStar() {
             }
         }
         
-        if(currently_running === false){
+        if(currentlyRunning === false){
             clearInterval(AStarRepeater);
         }
         if(pq.isEmpty() == 1){
             clearInterval(AStarRepeater);
-            currently_running = false;
+            currentlyRunning = false;
         }
     },1000 / 70);
 } 
 
-function algorithm_caller(){
-    if(currently_running == true){
+function algorithmCaller(){
+    if(currentlyRunning == true){
         return ;
     }
     type = document.getElementById('algorithm_type').value
-    currently_running = true;
+    currentlyRunning = true;
     foundPath = false;
     if(type == 'dfs') {
         DFS();
@@ -468,11 +458,11 @@ function algorithm_caller(){
 }
 
 
-function clear_grid(){
-    currently_running = false;
+function clearGrid(){
+    currentlyRunning = false;
     for(let i = 0; i < rows; i++){
         for(let j = 0; j < cols; j++){
-            if((i == starting_point_i && j == starting_point_j) || (i == ending_point_i && j == ending_point_j));
+            if((i == startingPointX && j == startingPointY) || (i == endingPointX && j == endingPointY));
             else{
                 data[i][j].className = '';
             }
@@ -481,5 +471,5 @@ function clear_grid(){
     }
 }
 
-document.getElementById('visualize_button').addEventListener('click',algorithm_caller);
-document.getElementById('clear_button').addEventListener('click',clear_grid);
+document.getElementById('visualize_button').addEventListener('click',algorithmCaller);
+document.getElementById('clear_button').addEventListener('click',clearGrid);

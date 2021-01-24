@@ -55,7 +55,7 @@ body{
     top: 20px;
     left: 55px;
 }
-#generate_button{
+#generateButton{
     position: absolute;
     top: 0px;
     left: 145px;
@@ -73,10 +73,10 @@ body{
 	transition: all 0.25s ease-in-out;
     outline: none;
 }
-#generate_button > p{
+#generateButton > p{
     margin-top:-2px;
 }
-#generate_button:hover{
+#generateButton:hover{
 	transform: scale(0.97);
 	font-size: 18px;
 	background: linear-gradient(
@@ -111,7 +111,7 @@ body{
 
 
 
-#sort_button,#stop_button{
+#sortButton,#stopButton{
 	margin-top: 15px;
 	width: 130px;
 	height: 40px;
@@ -129,7 +129,7 @@ body{
 	transition: all 0.25s ease-in-out;
     outline: none;
 }
-#sort_button:hover,#stop_button:hover{
+#sortButton:hover,#stopButton:hover{
 	transform: scale(0.97);
 	font-size: 19px;
 	background: linear-gradient(
@@ -137,7 +137,7 @@ body{
 		#0b0d17,
 		#212333);
 }
-#sort_button > p,#stop_button > p{
+#sortButton > p,#stopButton > p{
 	margin-top: 8px;
 	margin-left: auto;
 	margin-right: auto;
@@ -146,10 +146,10 @@ body{
     text-align: center;
     margin-bottom: 30px;
 }
-#sort_button{
+#sortButton{
     margin-right: 10px;
 }
-#stop_button{
+#stopButton{
     margin-left: 10px;
 }
 
@@ -163,46 +163,3 @@ body{
     }
 
 }
-
-
-
-
-/* CSS not working*/
-/* body{
-    padding: 0;
-    margin: 0;
-}
-#header{
-    overflow: hidden;
-    background-color: aqua;
-    padding: 20px 10px;;
-}
-#title{
-    float: left;
-    color: black;
-    text-align: center;
-    text-decoration: none;
-    padding-top: 15px;
-    margin-left: auto;
-    margin-right: auto;
-}
-#header-right{
-    float: right;
-}
-
-#slider{
-    position: relative;
-    padding-left: 30px;
-    padding-top: 15px;
-}
-#slidecontainer{
-}
-
-#slider_value{
-    position: absolute;
-    top: 20px;
-    left: 55px;
-}
-#sort_type{
-} */
-
