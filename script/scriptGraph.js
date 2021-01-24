@@ -215,6 +215,7 @@ function printPath(path){
         
         if(currentlyRunning === false){
             clearInterval(pathrepeater);
+            clearGrid() ;
         }
         if(i >= s.length - 1){
             currentlyRunning = false;
@@ -275,6 +276,7 @@ function BFS(){
         }
         if(currentlyRunning === false){
             clearInterval(bfsRepeater);
+            clearGrid();
         }
         if(q.isEmpty() == 1){
             clearInterval(bfsRepeater);
@@ -338,12 +340,13 @@ function DFS(){
             }
         }
 
+        if(currentlyRunning === false) {
+            clearInterval(dfsRepeater) ;
+            clearGrid();
+        }
         if(s.length === 0){
             clearInterval(dfsRepeater);
             currentlyRunning = false;
-        }
-        if(currentlyRunning === false) {
-            clearInterval(dfsRepeater) ;
         }
     },1000/70);
 }
@@ -429,6 +432,7 @@ function AStar() {
         
         if(currentlyRunning === false){
             clearInterval(AStarRepeater);
+            clearGrid();
         }
         if(pq.isEmpty() == 1){
             clearInterval(AStarRepeater);
