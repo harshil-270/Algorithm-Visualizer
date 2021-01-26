@@ -89,12 +89,10 @@ class Queue {
 
 
 
-var grid_manager = clickableGrid(rows,cols,function(el,row,col,i){
+let grid = createGrid(rows, cols, function(el, row, col) {
     if(row == startingPointX && col == startingPointY){
-
     }
     else if(row == endingPointX && col == endingPointY){
-        
     }
     else if(el.className == 'clicked'){
         el.className = '';
@@ -106,7 +104,7 @@ var grid_manager = clickableGrid(rows,cols,function(el,row,col,i){
     }
 });
 
-document.getElementById('container').appendChild(grid_manager);
+document.getElementById('container').appendChild(grid);
 
 document.querySelector('html').addEventListener('mousedown', function() { 
     mouseIsDown = 1;
@@ -115,40 +113,80 @@ document.querySelector('html').addEventListener('mouseup', function() {
     mouseIsDown = 0;
 });
 
-function clickableGrid( rows, cols, callback ){
-    var i=0;
-    var grid = document.createElement('table');
-    grid.className = 'grid';
 
-    // grid.addEventListener('mousedown', function() { 
-    //     mouseIsDown = 1;
-    // });
-    // grid.addEventListener('mouseup', function() {
-    //     mouseIsDown = 0;
-    // });
-    for (var r=0;r<rows;++r){
-        var tr = grid.appendChild(document.createElement('tr'));
-        for (var c=0;c<cols;++c){
-            var cell = tr.appendChild(document.createElement('td'));
+function allowDrop(e) {
+    e.preventDefault() ;
+}
+
+function drag(e) {
+    mouseIsDown = false;
+    e.dataTransfer.setData('sourceId', e.target.id) ;
+}
+
+function drop(e) {
+    e.preventDefault() ;
+    let sourceId = e.dataTransfer.getData('sourceId') ;
+    let targetId = e.target.id ;
+    
+    var src = document.getElementById(sourceId);
+    var tar = document.getElementById(targetId);
+    let tarX = Number.parseInt(tar.id.substr(1, 2));
+    let tarY = Number.parseInt(tar.id.substr(4, 2));
+    
+    if( (src.className === 'startPoint' && tar.className === 'endPoint') || (src.className === 'endPoint' && tar.className === 'startPoint') ) {
+        [startingPointX, endingPointX] = [endingPointX, startingPointX] ;
+        [startingPointY, endingPointY] = [endingPointY, startingPointY] ;
+    }
+    else {
+        if(src.className === 'startPoint') {
+            startingPointX = tarX;
+            startingPointY = tarY;
+        }
+        else {
+            endingPointX = tarX;
+            endingPointY = tarY;
+        }
+        src.draggable = false;
+        src.ondragstart = null;
+        tar.draggable = true;
+        tar.ondragstart =  ( (e) => drag(e) )
+    }
+    
+    [src.className, tar.className] = [tar.className, src.className];
+    [src.id, tar.id] = [tar.id, src.id] ;
+}
+
+
+
+function createGrid( rows, cols, callback ){
+    let grid = document.createElement('table');
+    grid.className = 'grid';
+    for (let r = 0; r < rows; r++){
+        let tr = grid.appendChild(document.createElement('tr'));
+        tr.ondrop = (e) => drop(e) ;
+        tr.ondragover = (e) => allowDrop(e);
+        for (let c = 0; c < cols; c++){
+            let cell = tr.appendChild(document.createElement('td'));
+
+            cell.id = "r" + ('0' + r).slice(-2) + "c" + ('0' + c).slice(-2);
             if(r == startingPointX && c == startingPointY){
-                cell.className = 'start_point';
+                cell.className = 'startPoint';
+                cell.draggable = true;
+                cell.ondragstart =  ( (e) => drag(e) )
             }
             else if(r == endingPointX && c == endingPointY){
-                cell.className = 'end_point';
+                cell.className = 'endPoint';
+                cell.draggable = true;
+                cell.ondragstart =  ( (e) => drag(e) )
             }
-            cell.addEventListener('mouseover',(function(el,r,c,i){
-                data[r][c] = el;
-                return function(){
-                    if(mouseIsDown){
-                        callback(el,r,c,i);
-                    }
-                }
-            })(cell,r,c,i),false);
-            cell.addEventListener('mousedown',(function(el,r,c,i){
-                return function(){
-                    callback(el,r,c,i);
-                }
-            })(cell,r,c,i),false);
+            data[r][c] = cell;
+            cell.addEventListener('mouseover',() => {
+                if(mouseIsDown) 
+                    callback(cell, r, c) 
+            } , false);
+            cell.addEventListener('mousedown', () => {
+                callback(cell, r, c) 
+            }, false);
         }
     }
     return grid;
@@ -348,7 +386,7 @@ function DFS(){
     },1000/70);
 }
 
-function findDistance(sx, sy, fx, fy) {
+function findManhattanDistance(sx, sy, fx, fy) {
     return Math.abs(fx - sx) + Math.abs(fy - sy) ;
 }
 
@@ -385,7 +423,7 @@ function AStar() {
 
     let newNode = defaultNode;
     newNode.g = 0;
-    newNode.h = findDistance(startingPointX, startingPointY, endingPointX, endingPointY);
+    newNode.h = findManhattanDistance(startingPointX, startingPointY, endingPointX, endingPointY);
     newNode.f = newNode.g + newNode.h;
     newNode.x = startingPointX;
     newNode.y = startingPointY;
@@ -417,7 +455,7 @@ function AStar() {
             if(isValid(newX, newY) && isBlocked[newX][newY] === 0 && vis[newX][newY] === 0){
                 let newNode = {};
                 newNode.g = p.g + 1;
-                newNode.h = findDistance(newX, newY, endingPointX, endingPointY) ;
+                newNode.h = findManhattanDistance(newX, newY, endingPointX, endingPointY) ;
                 newNode.f = newNode.g + newNode.h;
                 newNode.x = newX;
                 newNode.y = newY;

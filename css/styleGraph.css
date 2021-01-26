@@ -100,11 +100,11 @@ body{
     animation: clicked_animation 1.5s 1;
 }
 
-.grid td.start_point {
+.grid td.startPoint {
     background-color:rgb(90, 255, 7);
 }
 
-.grid td.end_point {
+.grid td.endPoint {
     background-color: red;
 }
 
