@@ -11,6 +11,11 @@ https://harshil-270.github.io/Algorithm-Visualizer/
   <li>DFS(Depth first search)</li>
   <li>A* Search algorithm</li>
 </ul>
+<div> 
+  <img src="images/image1.PNG" alt="Graph visulization(BFS)" width=48% />
+  <img src="images/image2.PNG" alt="Graph visulization(A*)" width=48%/>
+</div>
+
 
 <h3>Sorting Algorithms</h3>
 <ul> 
@@ -20,3 +25,7 @@ https://harshil-270.github.io/Algorithm-Visualizer/
   <li>Bubble Sort</li>
   <li>Selection Sort</li>
 </ul>
+<div>
+  <img src="images/image3.PNG" alt="Sorting visulization(Merge)" width=48%/>
+  <img src="images/image4.PNG" alt="Sorting visulization(Insertion)" width=48%/>
+</div>
