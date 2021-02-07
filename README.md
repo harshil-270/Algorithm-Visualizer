@@ -5,17 +5,6 @@ View Algorithm Visualizer
 https://harshil-270.github.io/Algorithm-Visualizer/
 
 
-
-<h3>Binary Search Tree</h3>
-<ul> 
-  <li>Insert Node</li>
-  <li>Delete Node</li>
-</ul>
-<div>
-  <img src="images/image5.PNG" alt="Graph visulization(BFS)" width=48% />
-</div>
-
-
 <h3>Graph Algorithms</h3>
 <ul> 
   <li>BFS(Breadth first search)</li>
@@ -27,6 +16,15 @@ https://harshil-270.github.io/Algorithm-Visualizer/
   <img src="images/image2.PNG" alt="Graph visulization(A*)" width=48%/>
 </div>
 
+
+<h3>Binary Search Tree</h3>
+<ul> 
+  <li>Insert Node</li>
+  <li>Delete Node</li>
+</ul>
+<div>
+  <img src="images/image5.PNG" alt="Graph visulization(BFS)" width=48% />
+</div>
 
 
 <h3>Sorting Algorithms</h3>
