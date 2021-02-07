@@ -1,0 +1,86 @@
+* {
+    padding: 0;
+    margin: 0;
+}
+
+body {
+    background-color: #212833;
+}
+
+#header {
+    overflow: hidden;
+    background-color: white;
+    height: 70px;
+    width: 100%;
+    position: relative;
+}
+
+#title {
+    text-align: center;
+    font-size: 27px;
+    color: black;
+    padding-top: 20px;
+    font-weight: bold;
+}
+
+.OperationsArea {
+    position: absolute;
+    top: 25px;
+    left: 20px;
+}
+
+.button {
+    width: 55px;
+}
+#InsertNodeField,
+#DeleteNodeField {
+    width: 90px;
+}
+#DeleteNodeField {
+    margin-left: 10px;
+}
+
+.Canvas {
+    width: 100%;
+    max-width: 1200px;
+    height: 630px;
+    background-color: #ffffff;
+    margin-top: 20px;
+    margin-left: auto;
+    margin-right: auto;
+}
+svg {
+    margin-top: 5px;
+    width: 100%;
+    max-width: 1200px;
+    height: 610px;
+    overflow: scroll;
+}
+.node circle {
+    fill: #29e703;
+    fill-opacity: 0.6;
+    stroke: #00911d;
+    stroke-width: 2px;
+}
+.null-node,
+.null-link {
+    visibility: hidden;
+}
+text {
+    fill: #ffffff;
+}
+
+.LinkAnimation {
+    stroke: red;
+    stroke-dasharray: 500;
+    animation: filling 1.5s linear forwards;
+}
+
+@keyframes filling {
+    from {
+        stroke-dashoffset: 500;
+    }
+    to {
+        stroke-dashoffset: 0;
+    }
+}

@@ -1,74 +1,82 @@
-*{
+* {
     padding: 0;
     margin: 0;
 }
 
-body{
+html,
+body {
+    height: 100%;
+}
+
+body {
     background-color: #212833;
 }
 
-#header{
-    overflow: hidden;
-	background-color: white;
-    height: 70px;
+#page {
+    display: flex;
+    flex-flow: column;
+    height: 100%;
 }
 
+#header {
+    overflow: hidden;
+    background-color: white;
+    height: 85px;
+}
 
-#title{
+#title {
     text-align: center;
     font-size: 27px;
     color: black;
-    padding-top: 20px;;
-	font-weight: bold;
+    padding-top: 20px;
+    font-weight: bold;
 }
-#main{
+.main {
+    display: flex;
+    height: 100%;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
     text-align: center;
 }
 
-#container1,#container2{
-    display: inline-block;
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: 20px;
+.container {
+    flex: 0 0 30%;
+    margin: 20px;
 }
-.category_link{
-    text-decoration: none;
-    color: white;
-    font-size: 20px;
+
+.imageContainer {
+    width: 450;
+    height: 300;
 }
-#sort_image,#graph_image{
-    border-radius: 20px;;
+.imageContainer :hover {
+    width: 475px;
+    height: 325px;
+    animation: transition 0.2s;
 }
-#container1,#container2{
-    margin-right: 20px;
-    margin-left: 20px;
-}
-#container11 :hover,#container22 :hover{
-    width: 485px;
-    height: 315px;
-    animation: mymove 0.20s 1;
-}
-@keyframes mymove{
-    from{
-        width: 500px;
-        height: 330px;
+@keyframes transition {
+    from {
+        width: 450px;
+        height: 300px;
     }
-    to{
-        width: 485px;
-        height: 315px;
+    to {
+        width: 475px;
+        height: 325px;
     }
 }
 
-@media (max-width : 1100px){
-    #container1{
-        display: block;
-    }
-    #main{
-        margin-top: 30px;;
-    }
+.image {
+    border-radius: 20px;
 }
-@media (min-width : 1100px){
-    #main{
-        margin-top: 150px;
+
+a {
+    text-decoration: none;
+    color: #2e85ff;
+    font-size: 20px;
+}
+
+@media (max-width: 1100px) {
+    .container {
+        flex: 0 0 48%;
     }
 }
