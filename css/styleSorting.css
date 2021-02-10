@@ -4,6 +4,7 @@
 }
 
 body{
+    width: 100%;
     background-color: #212833;
 }
 #maincanvasdiv{
@@ -105,7 +106,6 @@ body{
     color: white;
     outline: none;
 }
-
 
 
 

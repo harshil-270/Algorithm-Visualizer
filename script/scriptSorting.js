@@ -298,10 +298,13 @@ function mergeSort() {
                     j++;
                     k++;
                 }
-                draw(k, -1, -1, -1, 'purple', '', '', '');
+                if (k % 2)
+                    draw(k, -1, -1, -1, 'red', '', '', '');
+                else
+                    draw(k, -1, -1, -1, 'yellow', '', '', '');
             }
         }
-    }, 1000 / 125);
+    }, 1000 / 100);
 }
 
 function quickSort() {
