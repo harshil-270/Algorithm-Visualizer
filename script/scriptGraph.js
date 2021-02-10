@@ -1,5 +1,5 @@
-let rows = 20,
-    cols = 40;
+let rows = 19,
+    cols = 44;
 let mouseIsDown = false;
 
 let isBlocked = new Array(rows);
@@ -14,9 +14,11 @@ let currentlyRunning = false;
 let foundPath = false;
 
 let startingPointX = 9;
-let startingPointY = 14;
+let startingPointY = 15;
 let endingPointX = 9;
-let endingPointY = 24;
+let endingPointY = 27;
+
+let speed = 10;
 
 class PriorityQueue {
     constructor(defaultNode, comparator) {
@@ -123,7 +125,7 @@ function drop(e) {
     var tar = document.getElementById(targetId);
     let tarX = Number.parseInt(tar.id.substr(1, 2));
     let tarY = Number.parseInt(tar.id.substr(4, 2));
-
+    if (!src || !tar) return;
     if (
         (src.className === 'startPoint' && tar.className === 'endPoint') ||
         (src.className === 'endPoint' && tar.className === 'startPoint')
@@ -155,6 +157,7 @@ function createGrid(rows, cols, callback) {
         let tr = grid.appendChild(document.createElement('tr'));
         tr.ondrop = (e) => drop(e);
         tr.ondragover = (e) => allowDrop(e);
+
         for (let c = 0; c < cols; c++) {
             let cell = tr.appendChild(document.createElement('td'));
 
@@ -194,9 +197,6 @@ function isValid(x, y) {
 
 function printPath(path) {
     console.log('Algorithm finished. Printing path');
-    if (currentlyRunning === false) {
-        console.log('');
-    }
     if (foundPath === false) {
         console.log('No path exist');
         return;
@@ -223,41 +223,109 @@ function printPath(path) {
         }
     }
     s = s.split('').reverse().join('');
-    console.log(s);
 
     curi = startingPointX;
     curj = startingPointY;
     let i = 0;
 
-    let speed = 20;
-    if (s.length > 50) speed = 40;
-    let pathrepeater = setInterval(() => {
+    let pathInterval = setInterval(() => {
         curi += s[i] == 'D';
         curi -= s[i] == 'U';
         curj += s[i] == 'R';
         curj -= s[i] == 'L';
         data[curi][curj].className = 'path';
         i++;
-
+        console.log(currentlyRunning);
         if (currentlyRunning === false) {
-            clearInterval(pathrepeater);
+            clearInterval(pathInterval);
             clearGrid();
         }
         if (i >= s.length - 1) {
             currentlyRunning = false;
-            clearInterval(pathrepeater);
+            clearInterval(pathInterval);
         }
-    }, 1000 / speed);
+    }, speed * 2.5);
+}
+
+function DijkstraComparator(a, b) {
+    if (a.dis != b.dis) return a.dis < b.dis;
+    return Math.abs(a.y - endingPointY) < Math.abs(b.y - endingPointY);
+}
+
+function Dijkstra() {
+    let INF = 1000000000;
+    let vis = new Array(rows);
+    let path = new Array(rows);
+    let dis = new Array(rows);
+    for (let i = 0; i < rows; i++) {
+        vis[i] = new Array(cols).fill(0);
+        path[i] = new Array(cols).fill('0');
+        dis[i] = new Array(cols).fill(INF);
+    }
+    let defaultNode = {
+        dis: INF,
+        x: -1,
+        y: -1,
+    };
+
+    let pq = new PriorityQueue(defaultNode, DijkstraComparator);
+
+    let newNode = defaultNode;
+    newNode.dis = 0;
+    newNode.x = startingPointX;
+    newNode.y = startingPointY;
+    pq.add(newNode);
+    dis[startingPointX][startingPointY] = 0;
+    vis[startingPointX][startingPointY] = 1;
+    path[startingPointX][startingPointY] = '1';
+
+    let dx = [1, 0, -1, 0];
+    let dy = [0, 1, 0, -1];
+    let direction = ['U', 'L', 'D', 'R'];
+
+    let DijkstraInterval = setInterval(() => {
+        let p = pq.getTop();
+        pq.pop();
+        let x = p.x;
+        let y = p.y;
+
+        if (x == endingPointX && y == endingPointY) {
+            clearInterval(DijkstraInterval);
+            foundPath = true;
+            printPath(path);
+        } else {
+            if (!(x == startingPointX && y == startingPointY)) {
+                data[x][y].className = 'visited';
+            }
+            for (let i = 0; i < 4; i++) {
+                let newX = x + dx[i];
+                let newY = y + dy[i];
+                if (isValid(newX, newY) && isBlocked[newX][newY] === 0 && dis[x][y] + 1 < dis[newX][newY]) {
+                    let newNode = {
+                        dis: dis[x][y] + 1,
+                        x: newX,
+                        y: newY,
+                    };
+                    pq.add(newNode);
+                    vis[newX][newY] = 1;
+                    dis[newX][newY] = dis[x][y] + 1;
+                    path[newX][newY] = direction[i];
+                }
+            }
+
+            if (currentlyRunning === false) {
+                clearInterval(DijkstraInterval);
+                clearGrid();
+            }
+            if (pq.isEmpty() == 1) {
+                clearInterval(DijkstraInterval);
+                currentlyRunning = false;
+            }
+        }
+    }, speed);
 }
 
 function BFS() {
-    for (let i = 0; i < rows; i++) {
-        for (let j = 0; j < cols; j++) {
-            if (data[i][j].className == 'visited' || data[i][j].className == 'path') {
-                data[i][j].className = '';
-            }
-        }
-    }
     let vis = new Array(rows);
     let path = new Array(rows);
     for (let i = 0; i < rows; i++) {
@@ -274,48 +342,43 @@ function BFS() {
     let dy = [0, 1, 0, -1];
     let direction = ['U', 'L', 'D', 'R'];
 
-    let bfsRepeater = setInterval(() => {
+    let bfsInterval = setInterval(() => {
         let p = q.front();
         q.dequeue();
         let x = p[0];
         let y = p[1];
 
         if (x == endingPointX && y == endingPointY) {
-            clearInterval(bfsRepeater);
+            clearInterval(bfsInterval);
             foundPath = true;
             printPath(path);
-        } else if (!(x == startingPointX && y == startingPointY)) {
-            data[x][y].className = 'visited';
-        }
+        } else {
+            if (!(x == startingPointX && y == startingPointY)) {
+                data[x][y].className = 'visited';
+            }
 
-        for (let i = 0; i < 4; i++) {
-            let newX = x + dx[i];
-            let newY = y + dy[i];
-            if (isValid(newX, newY) && isBlocked[newX][newY] === 0 && vis[newX][newY] === 0) {
-                q.enqueue([newX, newY]);
-                vis[newX][newY] = 1;
-                path[newX][newY] = direction[i];
+            for (let i = 0; i < 4; i++) {
+                let newX = x + dx[i];
+                let newY = y + dy[i];
+                if (isValid(newX, newY) && isBlocked[newX][newY] === 0 && vis[newX][newY] === 0) {
+                    q.enqueue([newX, newY]);
+                    vis[newX][newY] = 1;
+                    path[newX][newY] = direction[i];
+                }
+            }
+            if (currentlyRunning === false) {
+                clearInterval(bfsInterval);
+                clearGrid();
+            }
+            if (q.isEmpty() == 1) {
+                clearInterval(bfsInterval);
+                currentlyRunning = false;
             }
         }
-        if (currentlyRunning === false) {
-            clearInterval(bfsRepeater);
-            clearGrid();
-        }
-        if (q.isEmpty() == 1) {
-            clearInterval(bfsRepeater);
-            currentlyRunning = false;
-        }
-    }, 1000 / 70);
+    }, speed);
 }
 
 function DFS() {
-    for (let i = 0; i < rows; i++) {
-        for (let j = 0; j < cols; j++) {
-            if (data[i][j].className == 'visited' || data[i][j].className == 'path') {
-                data[i][j].className = '';
-            }
-        }
-    }
     let vis = new Array(rows);
     let path = new Array(rows);
     for (let i = 0; i < rows; i++) {
@@ -332,7 +395,7 @@ function DFS() {
     let dy = [-1, 0, 1, 0];
     let direction = ['R', 'D', 'L', 'U'];
 
-    let dfsRepeater = setInterval(() => {
+    let dfsInterval = setInterval(() => {
         //get top of element of stack
         let p = s[s.length - 1];
         s.pop();
@@ -341,35 +404,35 @@ function DFS() {
 
         //if dfs is completed then print the path
         if (x == endingPointX && y == endingPointY) {
-            clearInterval(dfsRepeater);
+            clearInterval(dfsInterval);
             foundPath = true;
             printPath(path);
-        }
+        } else {
+            //change visual of current cell. we visited it.
+            if (!(x == startingPointX && y == startingPointY)) {
+                data[x][y].className = 'visited';
+            }
 
-        //change visual of current cell. we visited it.
-        else if (!(x == startingPointX && y == startingPointY)) {
-            data[x][y].className = 'visited';
-        }
+            for (let i = 0; i < 4; i++) {
+                let newX = x + dx[i];
+                let newY = y + dy[i];
+                if (isValid(newX, newY) && isBlocked[newX][newY] === 0 && vis[newX][newY] === 0) {
+                    s.push([newX, newY]);
+                    vis[newX][newY] = 1;
+                    path[newX][newY] = direction[i];
+                }
+            }
 
-        for (let i = 0; i < 4; i++) {
-            let newX = x + dx[i];
-            let newY = y + dy[i];
-            if (isValid(newX, newY) && isBlocked[newX][newY] === 0 && vis[newX][newY] === 0) {
-                s.push([newX, newY]);
-                vis[newX][newY] = 1;
-                path[newX][newY] = direction[i];
+            if (currentlyRunning === false) {
+                clearInterval(dfsInterval);
+                clearGrid();
+            }
+            if (s.length === 0) {
+                clearInterval(dfsInterval);
+                currentlyRunning = false;
             }
         }
-
-        if (currentlyRunning === false) {
-            clearInterval(dfsRepeater);
-            clearGrid();
-        }
-        if (s.length === 0) {
-            clearInterval(dfsRepeater);
-            currentlyRunning = false;
-        }
-    }, 1000 / 70);
+    }, speed);
 }
 
 function findManhattanDistance(sx, sy, fx, fy) {
@@ -377,18 +440,11 @@ function findManhattanDistance(sx, sy, fx, fy) {
 }
 
 function AStarComparator(x, y) {
-    if (x.f !== y.f) return x.f < y.f;
-    else return x.h < y.h;
+    return x.f < y.f;
 }
 
 function AStar() {
-    for (let i = 0; i < rows; i++) {
-        for (let j = 0; j < cols; j++) {
-            if (data[i][j].className == 'visited' || data[i][j].className == 'path') {
-                data[i][j].className = '';
-            }
-        }
-    }
+    let INF = 1000000000;
     let vis = new Array(rows);
     let path = new Array(rows);
     for (let i = 0; i < rows; i++) {
@@ -397,18 +453,14 @@ function AStar() {
     }
 
     let defaultNode = {
-        g: Number.MAX_SAFE_INTEGER,
-        h: Number.MAX_SAFE_INTEGER,
-        f: Number.MAX_SAFE_INTEGER,
+        f: INF,
         x: -1,
         y: -1,
     };
     let pq = new PriorityQueue(defaultNode, AStarComparator);
 
     let newNode = defaultNode;
-    newNode.g = 0;
-    newNode.h = findManhattanDistance(startingPointX, startingPointY, endingPointX, endingPointY);
-    newNode.f = newNode.g + newNode.h;
+    newNode.f = findManhattanDistance(startingPointX, startingPointY, endingPointX, endingPointY);
     newNode.x = startingPointX;
     newNode.y = startingPointY;
     pq.add(newNode);
@@ -419,44 +471,54 @@ function AStar() {
     let dy = [0, 1, 0, -1];
     let direction = ['U', 'L', 'D', 'R'];
 
-    let AStarRepeater = setInterval(() => {
+    let AStarInterval = setInterval(() => {
         let p = pq.getTop();
         pq.pop();
         let x = p.x;
         let y = p.y;
 
         if (x == endingPointX && y == endingPointY) {
-            clearInterval(AStarRepeater);
+            clearInterval(AStarInterval);
             foundPath = true;
             printPath(path);
-        } else if (!(x == startingPointX && y == startingPointY)) {
-            data[x][y].className = 'visited';
-        }
-        for (let i = 0; i < 4; i++) {
-            let newX = x + dx[i];
-            let newY = y + dy[i];
-            if (isValid(newX, newY) && isBlocked[newX][newY] === 0 && vis[newX][newY] === 0) {
-                let newNode = {};
-                newNode.g = p.g + 1;
-                newNode.h = findManhattanDistance(newX, newY, endingPointX, endingPointY);
-                newNode.f = newNode.g + newNode.h;
-                newNode.x = newX;
-                newNode.y = newY;
-                pq.add(newNode);
-                vis[newX][newY] = 1;
-                path[newX][newY] = direction[i];
+        } else {
+            if (!(x == startingPointX && y == startingPointY)) {
+                data[x][y].className = 'visited';
+            }
+            for (let i = 0; i < 4; i++) {
+                let newX = x + dx[i];
+                let newY = y + dy[i];
+                if (isValid(newX, newY) && isBlocked[newX][newY] === 0 && vis[newX][newY] === 0) {
+                    let newNode = {};
+                    newNode.f = findManhattanDistance(newX, newY, endingPointX, endingPointY);
+                    newNode.x = newX;
+                    newNode.y = newY;
+                    pq.add(newNode);
+                    vis[newX][newY] = 1;
+                    path[newX][newY] = direction[i];
+                }
+            }
+
+            if (currentlyRunning === false) {
+                clearInterval(AStarInterval);
+                clearGrid();
+            }
+            if (pq.isEmpty() == 1) {
+                clearInterval(AStarInterval);
+                currentlyRunning = false;
             }
         }
+    }, speed + 4);
+}
 
-        if (currentlyRunning === false) {
-            clearInterval(AStarRepeater);
-            clearGrid();
+function removeVisitedCell() {
+    for (let i = 0; i < rows; i++) {
+        for (let j = 0; j < cols; j++) {
+            if (data[i][j].className == 'visited' || data[i][j].className == 'path') {
+                data[i][j].className = '';
+            }
         }
-        if (pq.isEmpty() == 1) {
-            clearInterval(AStarRepeater);
-            currentlyRunning = false;
-        }
-    }, 1000 / 70);
+    }
 }
 
 function algorithmCaller() {
@@ -466,12 +528,15 @@ function algorithmCaller() {
     type = document.getElementById('algorithm_type').value;
     currentlyRunning = true;
     foundPath = false;
-    if (type == 'dfs') {
-        DFS();
-    } else if (type == 'bfs') {
-        BFS();
+    removeVisitedCell();
+    if (type == 'dijkstra') {
+        Dijkstra();
     } else if (type == 'a*') {
         AStar();
+    } else if (type == 'bfs') {
+        BFS();
+    } else if (type == 'dfs') {
+        DFS();
     }
 }
 

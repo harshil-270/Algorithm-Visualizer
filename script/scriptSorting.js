@@ -7,7 +7,7 @@ let isStopped = false;
 let isPaused = false;
 let isGenerated = true;
 let isSorted = false;
-let slider = document.getElementById('myRange');
+let slider = document.getElementById('slider');
 
 function randomvalue(min, max) {
     return Math.random() * (max - min) + min;
@@ -373,6 +373,7 @@ document.getElementById('stopButton').addEventListener('click', () => {
     document.getElementById('pauseButton').innerHTML = 'Pause';
     if (!isGenerated && !isSorted) randomArrayGenerator();
 });
+
 document.getElementById('pauseButton').addEventListener('click', () => {
     if (!isStopped) {
         if (isPaused) {
