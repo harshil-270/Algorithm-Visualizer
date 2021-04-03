@@ -186,6 +186,7 @@ function addNode() {
         parent = temp;
         if (temp.value == val) {
             alert('Value already exists in tree');
+            update(oldData, oldData);
             unfreezeButtons();
             clearInterval(InsertNodeInterval);
         } else {
