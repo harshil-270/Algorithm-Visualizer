@@ -1,127 +1,30 @@
-let canvas;
-let canvasContext;
-let n = 135;
-let lineWidth;
-let a = [];
-let isStopped = false;
+let heights = [];
+let bars = [];
+
+let barSlider = document.getElementById('barSlider');
+let n = barSlider.value;
+let speedSlider = document.getElementById('speedSlider');
+let delay = 375 - speedSlider.value;
+
+let container = document.getElementById('container');
+let width = container.offsetWidth;
+let height = container.offsetHeight;
+let lineWidth = width / n - 1;
+
+let isStopped = true;
 let isPaused = false;
 let isGenerated = true;
 let isSorted = false;
-let slider = document.getElementById('slider');
 
-function randomvalue(min, max) {
-    return Math.random() * (max - min) + min;
-}
-
-function randomArrayGenerator() {
-    isGenerated = true;
-    isSorted = false;
-    isStopped = true;
-    isPaused = false;
-    n = slider.value;
-    lineWidth = canvas.width / n;
-    for (let i = 0; i < n; i++) {
-        a[i] = parseInt(randomvalue(1, canvas.height));
-    }
-    draw(-1, -1, -1, -1, '', '', '', '');
-}
-
-function swap(i, minindex) {
-    [a[i], a[minindex]] = [a[minindex], a[i]];
-}
-
-function sortAlgorithmCaller() {
-    type = document.getElementById('sort_type').value;
-    if (!isStopped) {
-        return;
-    }
-    if (isSorted || !isGenerated) {
-        randomArrayGenerator();
-    }
-
-    isGenerated = false;
-    isPaused = false;
-    isStopped = false;
-
-    if (type == 'bubble') {
-        bubbleSort();
-    } else if (type == 'selection') {
-        selectionSort();
-    } else if (type == 'insertion') {
-        insertionSort();
-    } else if (type == 'merge') {
-        mergeSort();
-    } else if (type == 'quick') {
-        quickSort();
-    }
-}
-
-function draw(aa, bb, cc, dd, color1, color2, color3, color4) {
-    canvasContext.fillStyle = 'rgba(35,50,65,1)';
-    canvasContext.fillRect(0, 0, canvas.width, canvas.height);
-
-    for (let i = 0; i < n; i++) {
-        if (i == aa) {
-            canvasContext.fillStyle = color1;
-        } else if (i == bb) {
-            canvasContext.fillStyle = color2;
-        } else if (i == cc) {
-            canvasContext.fillStyle = color3;
-        } else if (i == dd) {
-            canvasContext.fillStyle = color4;
-        } else {
-            canvasContext.fillStyle = 'white';
-        }
-        canvasContext.fillRect(i * lineWidth, canvas.height - a[i], lineWidth - 1, a[i]);
-    }
-}
-
-function SortedAnimation() {
-    let i = 0;
-    canvasContext.fillStyle = 'lime';
-    let animation = setInterval(() => {
-        canvasContext.fillRect(i * lineWidth, canvas.height - a[i], lineWidth - 1, a[i]);
-        i++;
-        if (i == n) {
-            clearInterval(animation);
-
-            i = 0;
-            canvasContext.fillStyle = 'white';
-            animation = setInterval(() => {
-                canvasContext.fillRect(i * lineWidth, canvas.height - a[i], lineWidth - 1, a[i]);
-                i++;
-                if (i == n) {
-                    clearInterval(animation);
-                }
-            }, 8);
-        }
-    }, 8);
-}
-
-slider.oninput = function () {
-    document.getElementById('slider_value').innerHTML = slider.value;
-    randomArrayGenerator();
-};
-
-window.onload = function () {
-    canvas = document.getElementById('maincanvas');
-    canvasContext = canvas.getContext('2d');
-    canvasContext.fillStyle = 'rgba(35,50,65,1)';
-    canvasContext.fillRect(0, 0, canvas.width, canvas.height);
-
-    randomArrayGenerator();
-
-    console.log('Window Loaded and Canvas ready');
-};
-
+// stack implementation.
 class Stack {
     constructor() {
-        this.data = [];
+        this.arr = [];
         this.top = -1;
     }
     push(element) {
         this.top++;
-        this.data[this.top] = element;
+        this.arr.push(element);
     }
     isEmpty() {
         return this.top == -1;
@@ -129,256 +32,299 @@ class Stack {
     pop() {
         if (this.isEmpty() === false) {
             this.top = this.top - 1;
-            return this.data.pop();
+            return this.arr.pop();
         }
     }
 }
 
-function bubbleSort() {
-    let i = 0,
-        j = 0;
-    let bubblerepeat = setInterval(() => {
-        if (isStopped) {
-            clearInterval(bubblerepeat);
-        } else if (isPaused == false) {
-            j = j + 1;
-            if (j >= n - i - 1) {
-                i = i + 1;
-                j = 0;
-            }
-            draw(j, j + 1, -1, -1, 'red', 'red', '', '');
-            if (j + 1 < n && i < n && a[j] > a[j + 1]) {
-                swap(j, j + 1);
-                draw(j, j + 1, -1, -1, 'red', 'red', '', '');
-            }
-            if (i >= n) {
-                draw(-1, -1, -1, -1, '', '', '', '');
-                isSorted = true;
-                isStopped = true;
-                isPaused = false;
-                clearInterval(bubblerepeat);
-                console.log('Bubble sort Completed');
-                SortedAnimation();
+// get random value between min and max;
+function getRandomValue(min, max) {
+    return Math.random() * (max - min) + min;
+}
+// Generate random heights of the bar and create div element of the bar.
+function generateRandomArray() {
+    isGenerated = true;
+    isSorted = false;
+    isStopped = true;
+    isPaused = false;
+    n = barSlider.value;
+    lineWidth = width / n - 1;
+    container.innerHTML = '';
+    for (let i = 0; i < n; i++) {
+        heights[i] = parseInt(getRandomValue(1, height));
+        bars.push(document.createElement('div'));
+        bars[i].style.width = `${lineWidth}px`;
+        bars[i].style.height = `${heights[i]}px`;
+        bars[i].style.transform = `translate(${i * lineWidth + i}px)`;
+        bars[i].style.backgroundColor = 'white';
+        bars[i].className = 'bar';
+        container.appendChild(bars[i]);
+    }
+}
+generateRandomArray();
+
+// swap 2 bars and also swap trnasform property for the animation.
+function swap(i, minindex) {
+    [heights[i], heights[minindex]] = [heights[minindex], heights[i]];
+    [bars[i], bars[minindex]] = [bars[minindex], bars[i]];
+    const temp = bars[i].style.transform;
+    bars[i].style.transform = bars[minindex].style.transform;
+    bars[minindex].style.transform = temp;
+}
+// Draw bars with their new Updated heights.
+function draw(coloredBars, colors) {
+    // coloredBars contains indices of the bars which will be in different color than default color
+    // colors array stores color for different bars.
+    for (let i = 0; i < n; i++) {
+        bars[i].style.backgroundColor = 'white';
+        for (let j = 0; j < coloredBars.length; j++) {
+            if (i == coloredBars[j]) {
+                bars[i].style.backgroundColor = colors[j]; break;
             }
         }
-    }, 1000 / 300);
+    }
 }
 
-function selectionSort() {
-    let i = 0,
-        j = 0,
-        min_index = 0;
-    let selectionrepeat = setInterval(() => {
-        if (isStopped) {
-            clearInterval(selectionrepeat);
-        } else if (isPaused == false) {
-            j = j + 1;
-            if (j >= n) {
-                swap(i, min_index);
-                draw(i, j, min_index, -1, 'blue', 'red', 'green', '');
-                i = i + 1;
-                min_index = i;
-                j = i;
-            }
-            if (j < n) draw(i, j, min_index, -1, 'blue', 'red', 'green', '');
-            if (j < n && a[j] < a[min_index]) min_index = j;
-            if (i >= n) {
-                draw(-1, -1, -1, -1, '', '', '', '');
-                isSorted = true;
-                isStopped = true;
-                isPaused = false;
-                clearInterval(selectionrepeat);
-                console.log('Selection sort completed : ');
-                SortedAnimation();
-            }
-        }
-    }, 1000 / 300);
+// to put delay between visualization.
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+// Play animation after sorting process is finished
+async function SortedAnimation() {
+    // first we will go from left to right and color them in some color.
+    // then we will again go from left to right and color them white.
+    for (let i = 0; i < n; i++) {
+        bars[i].style.backgroundColor = 'lime';
+        await sleep(10);
+    }
+    await sleep(300);
+    for (let i = 0; i < n; i++) {
+        bars[i].style.backgroundColor = 'white';
+        await sleep(10);
+    }   
 }
 
-function insertionSort() {
-    let i = 0,
-        j = -1;
-    a[n + 1] = a[0];
-    let insertionrepeat = setInterval(() => {
-        if (isStopped) {
-            clearInterval(insertionrepeat);
-        } else if (isPaused == false) {
-            if (i < n && j >= 0 && a[j] > a[n + 1]) {
-                swap(j, j + 1);
-                draw(j, i, -1, -1, 'red', 'yellow', '', '');
-                j--;
-            } else if (i < n) {
-                swap(n + 1, j + 1);
-                draw(j, i, -1, -1, 'red', 'yellow', '', '');
-                i++;
-                a[n + 1] = a[i];
-                j = i - 1;
+// Sorting algos implementation starts...
+async function bubbleSort() {
+    for (let i = 0; i < n - 1; i++) {
+        for (let j = 0; j < n - i - 1; j++) {
+            if (isStopped) {
+                draw([], []) 
+                return;
             }
-            if (i >= n) {
-                draw(-1, -1, -1, -1, '', '', '', '');
-                isSorted = true;
-                isStopped = true;
-                isPaused = false;
-                clearInterval(insertionrepeat);
-                console.log('Insertion sort completed : ');
-                SortedAnimation();
-            }
-        }
-    }, 1000 / 100);
-}
-
-function mergeSort() {
-    let curr_size = 1;
-    let l = 0,
-        m = 0,
-        r = 1;
-    let i = 0,
-        j = 0,
-        k = l;
-    let n1 = m - l + 1;
-    let n2 = r - m;
-    let L = [];
-    let R = [];
-    for (i = 0; i < n1; i++) L.push(a[l + i]);
-    for (j = 0; j < n2; j++) R.push(a[m + 1 + j]);
-
-    i = 0;
-    j = 0;
-    k = l;
-
-    let mergerepeat = setInterval(() => {
-        if (isStopped) {
-            clearInterval(mergerepeat);
-        } else if (isPaused == false) {
-            if (i >= n1 && j >= n2) {
-                if (l + 2 * curr_size < n - 1) {
-                    l += 2 * curr_size;
-                    m = Math.min(l + curr_size - 1, n - 1);
-                    r = Math.min(l + 2 * curr_size - 1, n - 1);
-                } else {
-                    if (2 * curr_size <= n - 1) {
-                        curr_size = 2 * curr_size;
-                        l = 0;
-                        m = Math.min(l + curr_size - 1, n - 1);
-                        r = Math.min(l + 2 * curr_size - 1, n - 1);
-                    } else {
-                        draw(-1, -1, -1, -1, '', '', '', '');
-                        isSorted = true;
-                        isStopped = true;
-                        isPaused = false;
-                        clearInterval(mergerepeat);
-                        console.log('Merge Sort completed');
-                        SortedAnimation();
-                    }
+            if (!isPaused) {
+                if (heights[j] > heights[j + 1]) {
+                    swap(j, j + 1);
                 }
-                n1 = m - l + 1;
-                n2 = r - m;
-
-                for (i = 0; i < n1; i++) L[i] = a[l + i];
-                for (j = 0; j < n2; j++) R[j] = a[m + 1 + j];
-                i = 0;
-                j = 0;
-                k = l;
+                draw([j, j + 1], ['green', 'yellow'])
             } else {
-                if (i < n1 && j < n2) {
-                    if (L[i] < R[j]) {
-                        a[k] = L[i];
+                j--;
+            }
+            await sleep(delay);
+        }
+    }
+    console.log('Bubble sort completed.')
+    draw([], []);
+    isSorted = true;
+    isStopped = true;
+    isPaused = false;
+    SortedAnimation();
+}
+
+async function selectionSort() {
+    for (let i = 0; i < n - 1; i++) {
+        let minIndex = i;
+        for (let j = i + 1; j < n; j++) {
+            if (isStopped) {
+                draw([], []) 
+                return;
+            }
+            if (!isPaused) {
+                if (heights[j] < heights[minIndex]) {
+                    minIndex = j;
+                }
+                draw([i, j, minIndex], ['blue', 'red', 'green']);
+            } else {
+                j--;
+            }
+            await sleep(delay);
+        }    
+    }
+    console.log('Selection sort completed.')
+    draw([], []);
+    isSorted = true;
+    isStopped = true;
+    isPaused = false;
+    SortedAnimation();
+}
+
+async function insertionSort() {
+    for (let i = 0; i < n; i++) {
+        let key = heights[i];
+        for (let j = i - 1; j >= 0 && heights[j] > key; j--) {
+            if (isStopped) {
+                draw([], []) 
+                return;
+            }
+            if (!isPaused) {
+                swap(j, j + 1);
+                draw([j, i + 1], ['green', 'red']);
+            } else {
+                j++;
+            }
+            await sleep(delay);
+        }
+    }
+    console.log('Insertion sort completed.')
+    draw([], []);
+    isSorted = true;
+    isStopped = true;
+    isPaused = false;
+    SortedAnimation();
+}
+
+async function mergeSort() {
+    for (let curSize = 1; curSize < n; curSize *= 2) {
+        for (let start = 0; start < n - 1; start += 2 * curSize) {
+            let mid = Math.min(start + curSize - 1, n - 1);
+            let end = Math.min(start + 2 * curSize - 1, n - 1);
+            let n1 = mid - start + 1;
+            let n2 = end - mid;
+            let L = [], R = [];
+            for (let i = 0; i < n1; i++)
+                L.push(heights[start + i]);
+            for (let j = 0; j < n2; j++)
+                R.push(heights[mid + 1 + j]);
+            let i = 0, j = 0, k = start;
+
+            let barsIndices = [];
+            let barsColors = [];
+            for (let i1 = start; i1 <= end; i1++) {
+                barsIndices.push(i1);
+                barsColors.push('yellow');
+            }
+
+            while (i < n1 || j < n2) {
+                if (isStopped) {
+                    draw([], []);
+                    return;
+                }
+                if (!isPaused) {
+                    if (j == n2 || (i < n1 && L[i] <= R[j])) {
+                        draw([k, ...barsIndices], ['green', ...barsColors]);
                         i++;
-                    } else {
-                        a[k] = R[j];
+                    }
+                    else {
+                        for (let i1 = mid + 1 + j; i1 > k; i1--) {
+                            swap(i1, i1 - 1);
+                        }
+                        draw([k, ...barsIndices], ['green', ...barsColors]);
                         j++;
                     }
                     k++;
-                } else if (i < n1) {
-                    a[k] = L[i];
-                    i++;
-                    k++;
-                } else if (j < n2) {
-                    a[k] = R[j];
-                    j++;
-                    k++;
                 }
-                if (k % 2)
-                    draw(k, -1, -1, -1, 'red', '', '', '');
-                else
-                    draw(k, -1, -1, -1, 'yellow', '', '', '');
+                await sleep(delay);
             }
         }
-    }, 1000 / 100);
+    }
+    console.log('Merge sort completed.')
+    draw([], []);
+    isSorted = true;
+    isStopped = true;
+    isPaused = false;
+    SortedAnimation();
 }
 
-function quickSort() {
-    let l = 0;
-    let h = n - 1;
-    let stack = new Stack();
-    stack.push(l);
-    stack.push(h);
-    let j = 100000;
-    let x = 0;
-    let i = 0;
-    let partition = 0;
-    let calculated = 0;
+async function quickSort() {
+    let s = new Stack();
+    s.push(0);
+    s.push(n - 1);
+    while (!s.isEmpty()) {
+        let h = s.pop();
+        let l = s.pop();
 
-    let quickrepeat = setInterval(() => {
-        if (isStopped) {
-            clearInterval(quickrepeat);
-        } else if (isPaused == false) {
-            if (calculated == 1 && j <= h - 1) {
-                if (a[j] <= x) {
-                    i++;
-                    swap(i, j);
-                }
-                draw(i, j, -1, -1, 'red', 'red', '', '');
-                j = j + 1;
-            } else {
-                if (!stack.isEmpty() || calculated == 1) {
-                    if (calculated == 0) {
-                        h = stack.pop();
-                        l = stack.pop();
-                        x = a[h];
-                        i = l - 1;
-                        j = l;
-                        calculated = 1;
-                    } else {
-                        calculated = 0;
-                        swap(i + 1, h);
-                        partition = i + 1;
-                        let p = partition;
-                        if (p - 1 > l) {
-                            stack.push(l);
-                            stack.push(p - 1);
-                        }
-                        if (p + 1 < h) {
-                            stack.push(p + 1);
-                            stack.push(h);
-                        }
-                        j = 100000;
-                    }
-                } else {
-                    draw(-1, -1, -1, -1, '', '', '', '');
-                    isSorted = true;
-                    isStopped = true;
-                    isPaused = false;
-                    clearInterval(quickrepeat);
-                    console.log('Quick Sort completed : ');
-                    SortedAnimation();
-                }
-            }
+        let i = l - 1;
+      
+        let barsIndices = [];
+        let barsColors = [];
+        for (let i1 = l; i1 <= h; i1++) {
+            barsIndices.push(i1);
+            barsColors.push('yellow');
         }
-    }, 1000 / 100);
+
+        for (let j = l; j <= h - 1; j++) {
+            draw([i, j, ...barsIndices], ['green', 'red', ...barsColors])
+            if (heights[j] <= heights[h]) {
+                i++;
+                swap(i, j);
+            }
+            await sleep(delay);
+        }
+        swap(i + 1, h);
+        let partition = i + 1;
+        if (l < partition - 1) {
+            s.push(l);
+            s.push(partition - 1);
+        }
+        if (partition + 1 < h) {
+            s.push(partition + 1);
+            s.push(h);
+        }
+    }
+    console.log('Quick sort completed.')
+    draw([], []);
+    isSorted = true;
+    isStopped = true;
+    isPaused = false;
+    SortedAnimation();
 }
 
-document.getElementById('generateButton').addEventListener('click', randomArrayGenerator);
-document.getElementById('sortButton').addEventListener('click', sortAlgorithmCaller);
+// when slider value is changed generate new bars and update the value of bar count on the navbar.
+barSlider.oninput = () => {
+    document.querySelector('.sliderValue').innerHTML = barSlider.value;
+    generateRandomArray();
+};
+speedSlider.oninput = () => {
+    delay = 375 - speedSlider.value;
+}
+
+document.getElementById('generateButton').addEventListener('click', generateRandomArray);
+document.getElementById('sortButton').addEventListener('click', () => {
+    // get the name of selected sorting algorithm.
+    type = document.getElementById('sort_type').value;
+
+    // if there is another sorting visualization going on then return from the function.
+    if (!isStopped) return;
+    // if recently we used visualization and bars are sorted then generate new unsorted array.
+    if (isSorted || !isGenerated) generateRandomArray();
+
+    isGenerated = false;
+    isPaused = false;
+    isStopped = false;
+
+    if (type == 'bubble')
+        bubbleSort();
+    else if (type == 'selection')
+        selectionSort();
+    else if (type == 'insertion')
+        insertionSort();
+    else if (type == 'merge')
+        mergeSort();
+    else if (type == 'quick')
+        quickSort();
+});
 document.getElementById('stopButton').addEventListener('click', () => {
     isStopped = true;
     isPaused = false;
     document.getElementById('pauseButton').innerHTML = 'Pause';
-    if (!isGenerated && !isSorted) randomArrayGenerator();
+    // if user presses stop button and random bars is not generated then generate rnadom bars.
+    if (!isGenerated && !isSorted) generateRandomArray();
 });
 
 document.getElementById('pauseButton').addEventListener('click', () => {
+    // if currently sorting is in progress then isStopped will be false.
     if (!isStopped) {
+        // toggle button between pause and resume
         if (isPaused) {
             document.getElementById('pauseButton').innerHTML = 'Pause';
             isPaused = false;

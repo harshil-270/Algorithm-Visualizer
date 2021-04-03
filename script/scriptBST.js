@@ -1,26 +1,27 @@
 let data = { value: null };
 
-let width = Math.min(window.innerWidth, 1200);
-let height = 610;
-let nodeRadius = 20;
-let LinkStroke = 4;
-let animationDuration = 500;
-let padding = 22;
+const width = Math.min(window.innerWidth, 1200);
+const height = 610;
+const nodeRadius = 20;
+const LinkStroke = 4;
+const animationDuration = 500;
+const padding = 22;
 
 let treemap = d3.tree().size([width, height]);
 let g = d3.select('.Canvas').append('svg').append('g');
 
+// during insertion or deletion visualization process disbale the buttons
 function freezeButtons() {
     document.getElementById('InsertButton').disabled = true;
     document.getElementById('DeleteButton').disabled = true;
 }
-
 function unfreezeButtons() {
     document.getElementById('InsertButton').disabled = false;
     document.getElementById('DeleteButton').disabled = false;
 }
 
 function update(oldData, newData, parentValue, childValue) {
+    // childVakue is node we want to delete and parentValue is parent of node we want to delete
     /*
         find the co-ordinates of old tree;
         fint the co-ordinates of new updated tree;
@@ -28,9 +29,11 @@ function update(oldData, newData, parentValue, childValue) {
         animate nodes and links to the new co-ordinates
     */
 
+    // get the old and new tree 
     let oldTree = treemap(d3.hierarchy(oldData, (d) => d.children));
     let newTree = treemap(d3.hierarchy(newData, (d) => d.children));
-
+    console.log(newTree)
+    // convert both tres from objects to array
     let oldTreeArray = oldTree.descendants();
     let newTreeArray = newTree.descendants();
 
@@ -48,6 +51,7 @@ function update(oldData, newData, parentValue, childValue) {
         newTreeArray[i].x += padding;
         newTreeArray[i].y += padding;
     }
+
 
     d3.select('svg g').remove();
     d3.select('svg').append('g');
@@ -295,6 +299,7 @@ document.getElementById('InsertButton').addEventListener('click', addNode);
 document.getElementById('DeleteButton').addEventListener('click', deletionAnimation);
 
 $(document).ready(function () {
+    // if during inserting or deleting user presses enter key then click on button.
     $('#InsertNodeField').keypress(function (e) {
         if (e.keyCode == 13) $('#InsertButton').click();
     });

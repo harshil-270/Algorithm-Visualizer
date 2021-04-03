@@ -6,39 +6,37 @@
 </head>
 <body>
 	<div id="header">
-		<div id="title">
-			Algorithm Visualizer
+		<div id = "headerLeft">
+			<div class="slidecontainer">
+				<input type="range" min="25" max="300" value="150" class="slider" id="speedSlider">
+				<div class="sliderValue">Speed</div>
+			</div>
+			<div class="slidecontainer">
+				<input type="range" min="10" max="100" value="50" class="slider" id="barSlider">
+				<div class="sliderValue">50</div>
+			</div>
+			<button class="button" id="generateButton">Generate</button>
 		</div>
-		<div id="header-right">
-			<div id = "slider_all">
-				<div id="slidecontainer">
-					<input type="range" min="10" max="400" value="160" class="slider" id="slider">
-				</div>
-				<div id="slider_value">160</div>
-				<button id="generateButton"><p>Generate</p></button>
-			</div>
-			<div>
-				<select id="sort_type" name="sort_type" >
-					<option value="merge" selected>Merge Sort</option>
-					<option value="quick">Quick Sort</option>
-					<option value="selection">Selection Sort</option>
-					<option value="bubble">Bubble Sort</option>
-					<option value="insertion">Insertion Sort</option>
-				</select>
-			</div>
+		<div id="title">Algorithm Visualizer</div>
+		<div id="headerRight">
+			<select id="sort_type" name="sort_type" >
+				<option value="insertion" selected>Insertion Sort</option>
+				<option value="bubble">Bubble Sort</option>
+				<option value="merge">Merge Sort</option>
+				<option value="selection">Selection Sort</option>
+				<option value="quick">Quick Sort</option>
+			</select>
 		</div>
 	</div>
-	<div id="maincanvasdiv">
-		<canvas id="maincanvas" width="1300" height="550"></canvas>
-	</div>
+
+	<div id="container"></div>
+	
 	<div id="buttonsdiv">
-	<button type="button" id = "sortButton" class="button" >Sort</button>
-	<button type="button" id = "pauseButton" class="button" >Pause</button>
-	<button type="button" id = "stopButton" class="button" >Stop</button>
+		<button type="button" id = "sortButton" class="button" >Sort</button>
+		<button type="button" id = "pauseButton" class="button" >Pause</button>
+		<button type="button" id = "stopButton" class="button" >Stop</button>
 	</div>
-	<!-- <audio id="sound" controls = "controls">
-		<source src="sound/selection_sort3.mp3" />
-	</audio> -->
+	
 	<script src = "script/scriptSorting.js"></script> 
 </body>
 </html>

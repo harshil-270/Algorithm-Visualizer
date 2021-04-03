@@ -28,38 +28,32 @@ body {
     padding-left: 6px;
     height: 25px;
     width: 200px;
-    border-radius: 15px;
+    border-radius: 5px;
     background: #161824;
     color: white;
     outline: none;
 }
 
-#visualizeButton,
-#clearButton {
+.button {
     margin-top: 10px;
     width: 130px;
     height: 40px;
-    border-radius: 20px;
-    display: inline-block;
     font-size: 18px;
-    padding-top: 20px 50px;
     color: white;
-    border: none;
-    border-radius: 35px;
+    border-radius: 5px;
     background: #161824;
     box-shadow: 8px 8px 10px #12131c, -8px -8px 10px #1c1e2c;
     letter-spacing: 1.2px;
     transition: all 0.25s ease-in-out;
+    border: none;
     outline: none;
 }
-#visualizeButton:hover,
-#clearButton:hover {
+.button:hover {
     transform: scale(0.97);
     font-size: 19px;
     background: linear-gradient(to bottom right, #0b0d17, #212333);
 }
-#visualizeButton > p,
-#clearButton > p {
+.button > p {
     margin-top: 8px;
     margin-left: auto;
     margin-right: auto;

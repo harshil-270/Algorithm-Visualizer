@@ -153,39 +153,37 @@ function drop(e) {
 function createGrid(rows, cols, callback) {
     let grid = document.createElement('table');
     grid.className = 'grid';
-    for (let r = 0; r < rows; r++) {
+
+    for (let i = 0; i < rows; i++) {
+
         let tr = grid.appendChild(document.createElement('tr'));
         tr.ondrop = (e) => drop(e);
         tr.ondragover = (e) => allowDrop(e);
 
-        for (let c = 0; c < cols; c++) {
+        for (let j = 0; j < cols; j++) {
+            
             let cell = tr.appendChild(document.createElement('td'));
+            // Unique ID for each cell. if row or cell number is single digit then put 0 infront of it.
+            cell.id = 'r' + ('0'+i).slice(-2) + 'c' + ('0'+j).slice(-2);
 
-            cell.id = 'r' + ('0' + r).slice(-2) + 'c' + ('0' + c).slice(-2);
-            if (r == startingPointX && c == startingPointY) {
+
+            if (i == startingPointX && j == startingPointY) {
                 cell.className = 'startPoint';
                 cell.draggable = true;
                 cell.ondragstart = (e) => drag(e);
-            } else if (r == endingPointX && c == endingPointY) {
+            } else if (i == endingPointX && j == endingPointY) {
                 cell.className = 'endPoint';
                 cell.draggable = true;
                 cell.ondragstart = (e) => drag(e);
             }
-            data[r][c] = cell;
-            cell.addEventListener(
-                'mouseover',
-                () => {
-                    if (mouseIsDown) callback(cell, r, c);
-                },
-                false
-            );
-            cell.addEventListener(
-                'mousedown',
-                () => {
-                    callback(cell, r, c);
-                },
-                false
-            );
+
+            data[i][j] = cell;
+            cell.addEventListener('mouseover', () => {
+                if (mouseIsDown) callback(cell, i, j);
+            }, false);
+            cell.addEventListener('mousedown',() => {
+                callback(cell, i, j);
+            }, false);
         }
     }
     return grid;
@@ -235,7 +233,6 @@ function printPath(path) {
         curj -= s[i] == 'L';
         data[curi][curj].className = 'path';
         i++;
-        console.log(currentlyRunning);
         if (currentlyRunning === false) {
             clearInterval(pathInterval);
             clearGrid();
