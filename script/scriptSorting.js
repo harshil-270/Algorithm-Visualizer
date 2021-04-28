@@ -245,7 +245,7 @@ async function quickSort() {
         let l = s.pop();
 
         let i = l - 1;
-      
+        
         let barsIndices = [];
         let barsColors = [];
         for (let i1 = l; i1 <= h; i1++) {
@@ -254,10 +254,18 @@ async function quickSort() {
         }
 
         for (let j = l; j <= h - 1; j++) {
-            draw([i, j, ...barsIndices], ['green', 'red', ...barsColors])
-            if (heights[j] <= heights[h]) {
-                i++;
-                swap(i, j);
+            if (isStopped) {
+                draw([], []);
+                return;
+            }
+            if (!isPaused) {
+                draw([i, j, ...barsIndices], ['green', 'red', ...barsColors])
+                if (heights[j] <= heights[h]) {
+                    i++;
+                    swap(i, j);
+                }
+            } else {
+                j--;
             }
             await sleep(delay);
         }
