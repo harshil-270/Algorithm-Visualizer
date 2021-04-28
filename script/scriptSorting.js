@@ -149,6 +149,7 @@ async function selectionSort() {
             }
             await sleep(delay);
         }    
+        swap(i, minIndex);
     }
     console.log('Selection sort completed.')
     draw([], []);
