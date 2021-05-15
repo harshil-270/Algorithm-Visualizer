@@ -66,7 +66,7 @@ function init() {
 }
 init();
 
-// to anime from old tree to new tree.
+// to animate from old tree to new tree.
 function update(oldData, newData, parentId, childId) {
     // childVakue is node we want to delete and parentValue is parent of node we want to delete
     /*
