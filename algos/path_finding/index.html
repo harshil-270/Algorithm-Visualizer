@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Algorithm Visualizer</title>
+        <link rel="stylesheet" href="./styles.css" />
+    </head>
+    <body>
+        <div id="header">
+            <div id="title">Algorithm Visualizer</div>
+            <div id="header-right">
+                <div>
+                    <select id="algorithm_type" name="sort_type">
+                        <option value="dijkstra" selected>Dijkstra's Algorithm</option>
+                        <option value="a*">A* Search algorithm</option>
+                        <option value="bfs">BFS(Breadth first search)</option>
+                        <option value="dfs">DFS(Depth first search)</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div id="indicator-container">
+            <div class="indicator">
+                <div class="indicator-block" id="start-indicator"></div>
+                <div>Starting Position</div>
+            </div>
+            <div class="indicator">
+                <div class="indicator-block" id="end-indicator"></div>
+                <div>Ending Position</div>
+            </div>
+            <div class="indicator">
+                <div class="indicator-block" id="visited-indicator"></div>
+                <div>Visited Node</div>
+            </div>
+            <div class="indicator">
+                <div class="indicator-block" id="wall-indicator"></div>
+                <div>Wall</div>
+            </div>
+            <div class="indicator">
+                <div class="indicator-block" id="path-indicator"></div>
+                <div>Path</div>
+            </div>
+        </div>
+        <div id="container"></div>
+        <div id="buttonsdiv">
+            <button id="visualizeButton" class="button">Visualize</button>
+            <button id="clearButton" class="button">Clear Grid</button>
+        </div>
+        <script src="./script.js"></script>
+    </body>
+</html>

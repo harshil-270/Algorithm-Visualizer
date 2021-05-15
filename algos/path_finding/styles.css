@@ -34,6 +34,36 @@ body {
     outline: none;
 }
 
+#indicator-container {
+    display: flex;
+    background-color: cornflowerblue;
+}
+.indicator {
+    display: flex;
+    /* color: white; */
+    font-weight: bold;
+    margin: 10px 20px;
+}
+.indicator-block {
+    width: 20px;
+    height: 20px;
+    margin-right: 5px;
+}
+#start-indicator {
+    background-color: rgb(90, 255, 7);
+}
+#end-indicator {
+    background-color: red;
+}
+#visited-indicator {
+    background-color: orange;
+}
+#wall-indicator {
+    background-color: rgb(47, 40, 40);
+}
+#path-indicator {
+    background-color: rgb(128, 0, 167);
+}
 .button {
     margin-top: 10px;
     width: 130px;

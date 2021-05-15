@@ -1,0 +1,113 @@
+* {
+    padding: 0;
+    margin: 0;
+}
+
+html,
+body {
+    height: 100%;
+    min-height: 100%;
+}
+
+body {
+    background-color: #212833;
+}
+
+.container {
+    display: flex;
+    flex-flow: column;
+    height: 100%;
+}
+
+#header {
+    width: 100%;
+    flex: 0 1 70px;
+    height: 70px;
+    overflow: hidden;
+    background-color: white;
+    position: relative;
+}
+
+#title {
+    text-align: center;
+    font-size: 27px;
+    color: black;
+    padding-top: 20px;
+    font-weight: bold;
+}
+
+#OperationContainer {
+    position: absolute;
+    top: 25px;
+    left: 20px;
+}
+
+.button {
+    width: 55px;
+}
+#InsertNodeField,
+#DeleteNodeField {
+    width: 90px;
+}
+#DeleteNodeField {
+    margin-left: 10px;
+}
+
+.Canvas {
+    width: 100%;
+    flex: 1 1 auto;
+    /* max-width: 1200px; */
+    /* height: 610px; */
+    background-color: #212833;
+    overflow: hidden;
+    margin-left: auto;
+    margin-right: auto;
+}
+svg {
+    margin-top: 5px;
+    width: 100%;
+    /* max-width: 1200px; */
+    height: 100%;
+    overflow: scroll;
+}
+.node circle {
+    fill: #ffffff;
+    stroke: #ff7d12;
+    stroke-width: 1px;
+}
+.node text{
+    font-size: 22px;
+    fill: rgb(250, 7, 7);
+}
+
+.endOfWordNode circle {
+    fill: #00911d;
+    stroke: #ffffff;
+    stroke-width: 1px;
+}
+.endOfWordNode text {
+    font-size: 23px;
+    fill: #ffffff;
+}
+
+.highlightedNode circle {
+    fill: red;
+    stroke: red;
+    stroke-width: 2px;
+}
+.highlightedNode text {
+    font-size: 23px;
+    fill: white;
+}
+
+line {
+    stroke: #099b96;
+}
+
+.null-node,
+.null-link {
+    visibility: hidden;
+}
+text {
+    fill: #ffffff;
+}

@@ -45,7 +45,12 @@ body{
 .sliderValue{
     position: absolute;
     top: 20px;
-    left: 55px;
+    left: 40px;
+}
+.speedValue {
+    position: absolute;
+    top: 20px;
+    left: 40px;
 }
 
 

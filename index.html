@@ -1,42 +1,49 @@
 <!DOCTYPE html>
 <html>
-<head>
-	<title>Algorithm Visualizer</title>
-	<link rel="stylesheet" href="css/style.css">
-</head>
-<body>
-	<div id="page">
-		<div id="header">
-			<div id="title">
-				Algorithm Visualizer
-			</div>
-		</div>
-		<div class="main">
-			<div class="container">
-				<a href="BST.html" class="category_link">
-					<div class="imageContainer">
-						<img src="src/bst.png" class="image" width="450px" height="300px">
-					</div>
-					<div id="text1">Binary Search Tree</div>
-				</a>
-			</div>
-			<div class="container">
-				<a href="graph.html" class="category_link">
-					<div class="imageContainer">
-						<img src="src/graph.PNG" class="image" width="450px" height="300px">
-					</div>
-					<div id="text2">Path Finding Visualizer</div>
-				</a>
-			</div>
-			<div class="container">
-				<a href="sorting.html" class="category_link">
-					<div class="imageContainer">
-						<img src="src/sorting.PNG" class="image" width="450px" height="300px">
-					</div>
-					<div id="text1">Sorting Visualizer</div>
-				</a>
-			</div>
-		</div>
-	</div>
-</body>
+    <head>
+        <title>Algorithm Visualizer</title>
+        <link rel="stylesheet" href="css/styles.css" />
+    </head>
+    <body>
+        <div id="main">
+            <div id="header">
+                <div id="title">Algorithm Visualizer</div>
+            </div>
+            <div id="container">
+                <div class="algo-container">
+                    <a href="algos/bst/index.html" class="category_link">
+                        <div class="imageContainer">
+                            <img src="src/bst.png" class="image" />
+                        </div>
+                        <div>Binary Search Tree</div>
+                    </a>
+                </div>
+                <div class="algo-container">
+                    <a href="algos/path_finding/index.html" class="category_link">
+                        <div class="imageContainer">
+                            <img src="src/path_finding.png" class="image" />
+                        </div>
+                        <div>Path Finding Visualizer</div>
+                    </a>
+                </div>
+                <div class="algo-container">
+					<a href="algos/sorting/index.html" class="category_link">
+                        <div class="imageContainer">
+							<img src="src/sorting2.png" class="image" />
+                        </div>
+                        <div>Sorting Visualizer</div>
+                    </a>
+                </div>
+				<div class="algo-container">
+					<a href="algos/trie/index.html" class="category_link">
+						<div class="imageContainer">
+							<img src="src/trie3.png" class="image" />
+						</div>
+						<div>Trie</div>
+					</a>
+				</div>
+				<!-- Todo: Trie, Stack, Queue, Factorial recursion tree -->
+            </div>
+        </div>
+    </body>
 </html>

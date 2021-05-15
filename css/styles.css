@@ -9,19 +9,20 @@ body {
 }
 
 body {
-    background-color: #212833;
+    background-color: #343f51;
 }
 
-#page {
+#main {
+    height: 100%;
     display: flex;
     flex-flow: column;
-    height: 100%;
+    align-items: stretch;
 }
 
 #header {
-    overflow: hidden;
+    flex: 0 1 80px;
     background-color: white;
-    height: 85px;
+    /* height: 80px; */
 }
 
 #title {
@@ -31,7 +32,8 @@ body {
     padding-top: 20px;
     font-weight: bold;
 }
-.main {
+#container {
+    flex: 1 1 auto;
     display: flex;
     height: 100%;
     flex-wrap: wrap;
@@ -40,38 +42,38 @@ body {
     text-align: center;
 }
 
-.container {
-    flex: 0 0 30%;
-    margin: 20px;
+.algo-container {
+    flex: 25%;
+    display: inline-block;
 }
 
 .imageContainer {
-    width: 450;
-    height: 300;
+    max-width: 90%;
+    margin: 10px auto;
+    /* border: 2px solid black ; */
 }
-.imageContainer :hover {
-    width: 475px;
-    height: 325px;
+.imageContainer:hover {
+    max-width: 97%;
     animation: transition 0.2s;
 }
-@keyframes transition {
-    from {
-        width: 450px;
-        height: 300px;
-    }
-    to {
-        width: 475px;
-        height: 325px;
-    }
+.image {
+    max-width: 100%;
+    max-height: 100%;
+    border-radius: 20px;
 }
 
-.image {
-    border-radius: 20px;
+@keyframes transition {
+    from {
+        max-width: 90%;
+    }
+    to {
+        max-width: 97%;
+    }
 }
 
 a {
     text-decoration: none;
-    color: #2e85ff;
+    color: #dcebff;
     font-size: 20px;
 }
 

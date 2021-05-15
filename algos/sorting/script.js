@@ -79,7 +79,8 @@ function draw(coloredBars, colors) {
         bars[i].style.backgroundColor = 'white';
         for (let j = 0; j < coloredBars.length; j++) {
             if (i == coloredBars[j]) {
-                bars[i].style.backgroundColor = colors[j]; break;
+                bars[i].style.backgroundColor = colors[j];
+                break;
             }
         }
     }
@@ -87,7 +88,7 @@ function draw(coloredBars, colors) {
 
 // to put delay between visualization.
 function sleep(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
+    return new Promise((resolve) => setTimeout(resolve, ms));
 }
 // Play animation after sorting process is finished
 async function SortedAnimation() {
@@ -101,7 +102,7 @@ async function SortedAnimation() {
     for (let i = 0; i < n; i++) {
         bars[i].style.backgroundColor = 'white';
         await sleep(10);
-    }   
+    }
 }
 
 // Sorting algos implementation starts...
@@ -109,21 +110,21 @@ async function bubbleSort() {
     for (let i = 0; i < n - 1; i++) {
         for (let j = 0; j < n - i - 1; j++) {
             if (isStopped) {
-                draw([], []) 
+                draw([], []);
                 return;
             }
             if (!isPaused) {
                 if (heights[j] > heights[j + 1]) {
                     swap(j, j + 1);
                 }
-                draw([j, j + 1], ['green', 'yellow'])
+                draw([j, j + 1], ['green', 'yellow']);
             } else {
                 j--;
             }
             await sleep(delay);
         }
     }
-    console.log('Bubble sort completed.')
+    console.log('Bubble sort completed.');
     draw([], []);
     isSorted = true;
     isStopped = true;
@@ -136,7 +137,7 @@ async function selectionSort() {
         let minIndex = i;
         for (let j = i + 1; j < n; j++) {
             if (isStopped) {
-                draw([], []) 
+                draw([], []);
                 return;
             }
             if (!isPaused) {
@@ -148,10 +149,10 @@ async function selectionSort() {
                 j--;
             }
             await sleep(delay);
-        }    
+        }
         swap(i, minIndex);
     }
-    console.log('Selection sort completed.')
+    console.log('Selection sort completed.');
     draw([], []);
     isSorted = true;
     isStopped = true;
@@ -164,7 +165,7 @@ async function insertionSort() {
         let key = heights[i];
         for (let j = i - 1; j >= 0 && heights[j] > key; j--) {
             if (isStopped) {
-                draw([], []) 
+                draw([], []);
                 return;
             }
             if (!isPaused) {
@@ -176,7 +177,7 @@ async function insertionSort() {
             await sleep(delay);
         }
     }
-    console.log('Insertion sort completed.')
+    console.log('Insertion sort completed.');
     draw([], []);
     isSorted = true;
     isStopped = true;
@@ -191,12 +192,13 @@ async function mergeSort() {
             let end = Math.min(start + 2 * curSize - 1, n - 1);
             let n1 = mid - start + 1;
             let n2 = end - mid;
-            let L = [], R = [];
-            for (let i = 0; i < n1; i++)
-                L.push(heights[start + i]);
-            for (let j = 0; j < n2; j++)
-                R.push(heights[mid + 1 + j]);
-            let i = 0, j = 0, k = start;
+            let L = [],
+                R = [];
+            for (let i = 0; i < n1; i++) L.push(heights[start + i]);
+            for (let j = 0; j < n2; j++) R.push(heights[mid + 1 + j]);
+            let i = 0,
+                j = 0,
+                k = start;
 
             let barsIndices = [];
             let barsColors = [];
@@ -214,8 +216,7 @@ async function mergeSort() {
                     if (j == n2 || (i < n1 && L[i] <= R[j])) {
                         draw([k, ...barsIndices], ['green', ...barsColors]);
                         i++;
-                    }
-                    else {
+                    } else {
                         for (let i1 = mid + 1 + j; i1 > k; i1--) {
                             swap(i1, i1 - 1);
                         }
@@ -228,7 +229,7 @@ async function mergeSort() {
             }
         }
     }
-    console.log('Merge sort completed.')
+    console.log('Merge sort completed.');
     draw([], []);
     isSorted = true;
     isStopped = true;
@@ -245,7 +246,7 @@ async function quickSort() {
         let l = s.pop();
 
         let i = l - 1;
-        
+
         let barsIndices = [];
         let barsColors = [];
         for (let i1 = l; i1 <= h; i1++) {
@@ -259,7 +260,7 @@ async function quickSort() {
                 return;
             }
             if (!isPaused) {
-                draw([i, j, ...barsIndices], ['green', 'red', ...barsColors])
+                draw([i, j, ...barsIndices], ['green', 'red', ...barsColors]);
                 if (heights[j] <= heights[h]) {
                     i++;
                     swap(i, j);
@@ -280,7 +281,7 @@ async function quickSort() {
             s.push(h);
         }
     }
-    console.log('Quick sort completed.')
+    console.log('Quick sort completed.');
     draw([], []);
     isSorted = true;
     isStopped = true;
@@ -290,12 +291,12 @@ async function quickSort() {
 
 // when slider value is changed generate new bars and update the value of bar count on the navbar.
 barSlider.oninput = () => {
-    document.querySelector('.sliderValue').innerHTML = barSlider.value;
+    document.querySelector('.sliderValue').innerHTML = `Bars: ${barSlider.value}`;
     generateRandomArray();
 };
 speedSlider.oninput = () => {
     delay = 375 - speedSlider.value;
-}
+};
 
 document.getElementById('generateButton').addEventListener('click', generateRandomArray);
 document.getElementById('sortButton').addEventListener('click', () => {
@@ -311,16 +312,12 @@ document.getElementById('sortButton').addEventListener('click', () => {
     isPaused = false;
     isStopped = false;
 
-    if (type == 'bubble')
-        bubbleSort();
-    else if (type == 'selection')
-        selectionSort();
-    else if (type == 'insertion')
-        insertionSort();
-    else if (type == 'merge')
-        mergeSort();
-    else if (type == 'quick')
-        quickSort();
+
+    if (type == 'bubble') bubbleSort();
+    else if (type == 'selection') selectionSort();
+    else if (type == 'insertion') insertionSort();
+    else if (type == 'merge') mergeSort();
+    else if (type == 'quick') quickSort();
 });
 document.getElementById('stopButton').addEventListener('click', () => {
     isStopped = true;
