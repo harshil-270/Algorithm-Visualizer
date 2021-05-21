@@ -34,6 +34,7 @@ function sleep(ms) {
     return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
+
 // create the root node.
 function init() {
     let newTree = treemap(d3.hierarchy(data, (d) => d.children));
@@ -41,7 +42,7 @@ function init() {
     newTree.y += padding;
 
     let nodes = d3
-        .select('svg g')
+        .select('.Canvas > svg g')
         .selectAll('g.node')
         .data(newTree)
         .enter()
@@ -104,8 +105,8 @@ function update(oldData, newData, parentId, childId) {
         newTreeArray[i].y += padding;
     }
 
-    d3.select('svg g').remove();
-    d3.select('svg').append('g');
+    d3.select('.Canvas > svg g').remove();
+    d3.select('.Canvas > svg').append('g');
 
     let allLinks = [];
     for (let i = 0; i < newTreeArray.length; i++) {
@@ -119,7 +120,7 @@ function update(oldData, newData, parentId, childId) {
     }
 
     let links = d3
-        .select('svg g')
+        .select('.Canvas > svg g')
         .selectAll('g.link')
         .data(allLinks)
         .enter()
@@ -142,7 +143,7 @@ function update(oldData, newData, parentId, childId) {
         .attr('y2', (d) => d.child.y);
 
     let nodes = d3
-        .select('svg g')
+        .select('.Canvas > svg g')
         .selectAll('g.node')
         .data(newTree)
         .enter()
@@ -181,6 +182,10 @@ function update(oldData, newData, parentId, childId) {
 const addNode = async () => {
     let str = document.getElementById('InsertNodeField').value;
     if (str == '') return;
+    if (str.length > 12) {
+        alert('Word Length should be less than 12.')
+        return;
+    }
     document.getElementById('InsertNodeField').value = '';
 
     freezeButtons();
