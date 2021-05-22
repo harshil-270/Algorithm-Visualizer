@@ -4,14 +4,15 @@
 View Algorithm Visualizer
 https://harshil-270.github.io/Algorithm-Visualizer/
 
+<h3>Trie</h3>
+<div>
+  <img src="images/trie.png" alt="Trie visulization" width=48% />
+</div>
+<hr>
 
 <h3>Binary Search Tree</h3>
-<ul> 
-  <li>Insert Node</li>
-  <li>Delete Node</li>
-</ul>
 <div>
-  <img src="images/image5.PNG" alt="Graph visulization(BFS)" width=48% />
+  <img src="images/bst.png" alt="BST visulization" width=48% />
 </div>
 <hr>
 
@@ -23,8 +24,7 @@ https://harshil-270.github.io/Algorithm-Visualizer/
   <li>DFS(Depth first search)</li>
 </ul>
 <div> 
-  <img src="images/image1.PNG" alt="Graph visulization(BFS)" width=48% />
-  <img src="images/image2.PNG" alt="Graph visulization(A*)" width=48%/>
+  <img src="images/path_finding.png" alt="Graph visulization" width=48% />
 </div>
 <hr>
 
@@ -37,6 +37,5 @@ https://harshil-270.github.io/Algorithm-Visualizer/
   <li>Selection Sort</li>
 </ul>
 <div>
-  <img src="images/image3.PNG" alt="Sorting visulization(Merge)" width=48%/>
-  <img src="images/image4.PNG" alt="Sorting visulization(Insertion)" width=48%/>
+  <img src="images/sorting.png" alt="Sorting visulization" width=48%/>
 </div>
