@@ -35,7 +35,7 @@ function sleep(ms) {
 }
 
 function update(oldData, newData, parentId, childId) {
-    // childVakue is node we want to delete and parentValue is parent of node we want to delete
+    // childId is node we want to insert/delete and parentId is parent of node we want to insert/delete
     /*
         find the co-ordinates of old tree;
         fint the co-ordinates of new updated tree;
