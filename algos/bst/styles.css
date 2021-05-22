@@ -3,15 +3,28 @@
     margin: 0;
 }
 
+html,
+body {
+    height: 100%;
+    min-height: 100%;
+}
+
 body {
     background-color: #212833;
 }
 
+.container {
+    display: flex;
+    flex-flow: column;
+    height: 100%;
+}
+
 #header {
+    width: 100%;
+    flex: 0 1 70px;
+    height: 70px;
     overflow: hidden;
     background-color: white;
-    height: 70px;
-    width: 100%;
     position: relative;
 }
 
@@ -23,7 +36,7 @@ body {
     font-weight: bold;
 }
 
-.OperationsArea {
+#OperationContainer {
     position: absolute;
     top: 25px;
     left: 20px;
@@ -42,38 +55,63 @@ body {
 
 .Canvas {
     width: 100%;
-    max-width: 1200px;
-    height: 630px;
-    background-color: #ffffff;
-    margin-top: 20px;
+    flex: 1 1 auto;
+    background-color: #212833;
+    overflow: hidden;
     margin-left: auto;
     margin-right: auto;
+    position: relative;
 }
+
+.indicator {
+    position: absolute;
+}
+.indicator text {
+    font-size: 20px !important;
+}
+
+
 svg {
     margin-top: 5px;
     width: 100%;
-    max-width: 1200px;
-    height: 610px;
+    /* max-width: 1200px; */
+    height: 100%;
     overflow: scroll;
 }
+
+
 .node circle {
     fill: #29e703;
-    fill-opacity: 0.6;
-    stroke: #00911d;
-    stroke-width: 2px;
+    /* fill-opacity: 0.6; */
+    stroke: #168700;
+    stroke-width: 1px;
 }
+.node text {
+    font-size: 22px;
+    fill: #ffffff;
+}
+
+.highlightedNode circle {
+    fill: red;
+    stroke: red;
+    stroke-width: 1px;
+}
+
+
 .null-node,
 .null-link {
     visibility: hidden;
 }
-text {
-    fill: #ffffff;
+
+line {
+    stroke: #099b96;
 }
+
 
 .LinkAnimation {
     stroke: red;
     stroke-dasharray: 500;
-    animation: filling 1.5s linear forwards;
+    animation: filling 1s linear forwards;
 }
 
 @keyframes filling {

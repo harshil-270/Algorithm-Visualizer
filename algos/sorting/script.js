@@ -1,5 +1,6 @@
 let heights = [];
 let bars = [];
+let barValues = [];
 
 let barSlider = document.getElementById('barSlider');
 let n = barSlider.value;
@@ -59,6 +60,16 @@ function generateRandomArray() {
         bars[i].style.backgroundColor = 'white';
         bars[i].className = 'bar';
         container.appendChild(bars[i]);
+
+        // if there are more numer of bars then it is not feasible to show bar values because they gets mixed up.
+        if (n <= 60) {
+            barValues.push(document.createElement('div'));
+            barValues[i].innerHTML = heights[i];
+            barValues[i].style.marginBottom = `${heights[i] + 5}px`;
+            barValues[i].style.transform = `translate(${i * lineWidth + i}px)`;
+            barValues[i].className = 'barValue';
+            container.appendChild(barValues[i]);
+        }
     }
 }
 generateRandomArray();
@@ -66,10 +77,12 @@ generateRandomArray();
 // swap 2 bars and also swap trnasform property for the animation.
 function swap(i, minindex) {
     [heights[i], heights[minindex]] = [heights[minindex], heights[i]];
+
     [bars[i], bars[minindex]] = [bars[minindex], bars[i]];
-    const temp = bars[i].style.transform;
-    bars[i].style.transform = bars[minindex].style.transform;
-    bars[minindex].style.transform = temp;
+    [bars[i].style.transform, bars[minindex].style.transform] = [bars[minindex].style.transform, bars[i].style.transform];
+    
+    [barValues[i], barValues[minindex]] = [barValues[minindex], barValues[i]];
+    [barValues[i].style.transform,barValues[minindex].style.transform] = [barValues[minindex].style.transform,barValues[i].style.transform];
 }
 // Draw bars with their new Updated heights.
 function draw(coloredBars, colors) {
@@ -311,7 +324,6 @@ document.getElementById('sortButton').addEventListener('click', () => {
     isGenerated = false;
     isPaused = false;
     isStopped = false;
-
 
     if (type == 'bubble') bubbleSort();
     else if (type == 'selection') selectionSort();

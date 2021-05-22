@@ -1,7 +1,17 @@
-let data = { value: null };
+// prerequisite: javascript, d3.js
 
-const width = Math.min(window.innerWidth, 1200);
-const height = 610;
+// structure of node
+// {
+//     id: number <--- unique id for each node. it will be also used as id for html element of node.
+//     value: character <-- this will store value of current node.
+//     children: [] <--- this array will store left and right of node
+// }
+
+let data = { value: null, children: [] };
+let curId = 1; // current availabel id.
+
+const width = Math.max(100, window.innerWidth - 50);
+const height = Math.max(100, window.innerHeight - 100);
 const nodeRadius = 20;
 const LinkStroke = 4;
 const animationDuration = 500;
@@ -19,8 +29,12 @@ function unfreezeButtons() {
     document.getElementById('InsertButton').disabled = false;
     document.getElementById('DeleteButton').disabled = false;
 }
+// to put delay between visualization.
+function sleep(ms) {
+    return new Promise((resolve) => setTimeout(resolve, ms));
+}
 
-function update(oldData, newData, parentValue, childValue) {
+function update(oldData, newData, parentId, childId) {
     // childVakue is node we want to delete and parentValue is parent of node we want to delete
     /*
         find the co-ordinates of old tree;
@@ -29,32 +43,34 @@ function update(oldData, newData, parentValue, childValue) {
         animate nodes and links to the new co-ordinates
     */
 
-    // get the old and new tree 
+    // get the old and new tree
     let oldTree = treemap(d3.hierarchy(oldData, (d) => d.children));
     let newTree = treemap(d3.hierarchy(newData, (d) => d.children));
-    console.log(newTree)
+
     // convert both tres from objects to array
     let oldTreeArray = oldTree.descendants();
     let newTreeArray = newTree.descendants();
 
     for (let i = 0; i < newTreeArray.length; i++) {
-        let oldPos = null;
+        let oldPosition = {};
         for (let j = 0; j < oldTreeArray.length; j++) {
-            if (newTreeArray[i].data.value == childValue) {
-                if (oldTreeArray[j].data.value == parentValue) oldPos = oldTreeArray[j];
+            if (newTreeArray[i].data.id == childId) {
+                if (oldTreeArray[j].data.id == parentId) {
+                    oldPosition = oldTreeArray[j];
+                }
             } else {
-                if (oldTreeArray[j].data.value == newTreeArray[i].data.value) oldPos = oldTreeArray[j];
+                if (oldTreeArray[j].data.id == newTreeArray[i].data.id) {
+                    oldPosition = oldTreeArray[j];
+                }
             }
         }
-        newTreeArray[i].oldX = (oldPos.x || 0) + padding;
-        newTreeArray[i].oldY = (oldPos.y || 0) + padding;
-        newTreeArray[i].x += padding;
+        newTreeArray[i].oldX = oldPosition.x || 0;
+        newTreeArray[i].oldY = (oldPosition.y || 0) + padding;
         newTreeArray[i].y += padding;
     }
 
-
-    d3.select('svg g').remove();
-    d3.select('svg').append('g');
+    d3.select('.Canvas > svg g').remove();
+    d3.select('.Canvas > svg').append('g');
 
     let allLinks = [];
     for (let i = 0; i < newTreeArray.length; i++) {
@@ -72,13 +88,13 @@ function update(oldData, newData, parentValue, childValue) {
         let lineId = '';
         if (!i) lineId = 'Under';
         let links = d3
-            .select('svg g')
+            .select('.Canvas > svg g')
             .selectAll('g.link')
             .data(allLinks)
             .enter()
             .append('g')
             .append('line')
-            .attr('id', (d) => `${lineId}linkS${d.parent.data.value}D${d.child.data.value}`)
+            .attr('id', (d) => `${lineId}link_Source_${d.parent.data.id}_Dest_${d.child.data.id}`)
             .attr('stroke-width', LinkStroke)
             .attr('stroke', 'black')
             .attr('x1', (d) => d.parent.oldX)
@@ -96,23 +112,26 @@ function update(oldData, newData, parentValue, childValue) {
     }
 
     let nodes = d3
-        .select('svg g')
+        .select('.Canvas > svg g')
         .selectAll('g.node')
         .data(newTree)
         .enter()
         .append('g')
+        .attr('id', (d) => `node${d.data.id}`)
         .attr('class', (d) => (d.data.value != null ? 'node' : 'null-node'));
     nodes
         .append('circle')
-        .attr('id', (d) => `circle${d.data.value}`)
+        .attr('id', (d) => `circle${d.data.id}`)
         .attr('r', nodeRadius)
         .attr('cx', (d) => d.oldX)
         .attr('cy', (d) => d.oldY)
         .attr('value', (d) => d.data.value);
     nodes
         .append('text')
-        .attr('dx', (d) => d.oldX - 4)
-        .attr('dy', (d) => d.oldY + 6)
+        .attr('dx', (d) => d.oldX)
+        .attr('dy', (d) => d.oldY)
+        .attr('text-anchor', 'middle')
+        .attr('alignment-baseline', 'middle')
         .attr('font-size', '20px')
         .attr('font-weight', 'bold')
         .text((d) => d.data.value);
@@ -128,7 +147,7 @@ function update(oldData, newData, parentValue, childValue) {
     data = newData;
 }
 
-function addNode() {
+const addNode = async () => {
     let val = document.getElementById('InsertNodeField').value;
     if (val == '') return;
     if (isNaN(val)) {
@@ -139,97 +158,71 @@ function addNode() {
     document.getElementById('InsertNodeField').value = '';
     freezeButtons();
 
+    let oldData = $.extend(true, {}, data);
+    let newData = $.extend(true, {}, data);
+    let node = newData;
+    let parent = null;
     if (data.value == null) {
         data = {
+            id: curId,
             value: val,
             children: [{ value: null }, { value: null }],
         };
-        let treeLayout = treemap(d3.hierarchy(data, (d) => d.children));
-        treeLayout.x += padding;
-        treeLayout.y += padding;
-        let nodes = d3
-            .select('svg g')
-            .selectAll('g.node')
-            .data(treeLayout)
-            .enter()
-            .append('g')
-            .attr('class', (d) => (d.data.value != null ? 'node' : 'null-node'));
-        nodes
-            .append('circle')
-            .attr('id', (d) => `circle${d.data.value}`)
-            .attr('r', '20px')
-            .attr('cx', (d) => d.x)
-            .attr('cy', (d) => d.y)
-            .attr('value', (d) => d.data.value);
-        nodes
-            .append('text')
-            .attr('dx', (d) => d.x - 4)
-            .attr('dy', (d) => d.y + 6)
-            .attr('font-size', '20px')
-            .attr('font-weight', 'bold')
-            .text((d) => d.data.value);
+        update(oldData, data, -1, -1);
+        curId++;
+    } else {
+        while (true) {
+            let nodeEle = document.getElementById(`node${node.id}`);
+            if (nodeEle) nodeEle.className.baseVal = 'highlightedNode';
 
-        unfreezeButtons();
-        return;
-    }
-
-    let oldData = $.extend(true, {}, data);
-    let newData = $.extend(true, {}, data);
-    let temp = newData;
-    let parent = null;
-    let InsertNodeInterval = setInterval(() => {
-        let node = document.getElementById('circle' + temp.value);
-        node.style.fill = 'red';
-        node.style.fillOpacity = 0.6;
-        node.style.stroke = 'red';
-
-        parent = temp;
-        if (temp.value == val) {
-            alert('Value already exists in tree');
-            update(oldData, oldData);
-            unfreezeButtons();
-            clearInterval(InsertNodeInterval);
-        } else {
-            if (temp.value > val) {
-                temp = temp.children[0];
+            parent = node;
+            if (node.value == val) {
+                alert('Value already exists in tree');
+                update(oldData, oldData, -1, -1);
+                break;
             } else {
-                temp = temp.children[1];
-            }
+                if (node.value > val) {
+                    node = node.children[0];
+                } else {
+                    node = node.children[1];
+                }
 
-            if (temp.value == null) {
-                clearInterval(InsertNodeInterval);
-                setTimeout(() => {
+                if (node.value == null) {
+                    await sleep(300);
                     let newChild = {
+                        id: curId,
                         value: val,
                         children: [{ value: null }, { value: null }],
                     };
+
                     if (parent.value < val) parent.children[1] = newChild;
                     else parent.children[0] = newChild;
+                    update(oldData, newData, parent.id, curId);
 
-                    update(oldData, newData, parent.value, val);
-                    unfreezeButtons();
-                }, 1000);
-            } else {
-                $(`#linkS${parent.value}D${temp.value}`).addClass('LinkAnimation');
+                    curId++;
+                    break;
+                } else {
+                    document.getElementById(`link_Source_${parent.id}_Dest_${node.id}`).className.baseVal = 'LinkAnimation';
+                }
             }
+            await sleep(750);
         }
-    }, 1000);
-}
+    }
+    unfreezeButtons();
+};
 
-function deleteNode(newData, val) {
+const deleteNodeRecur = (newData, val) => {
     if (newData.value == null) return newData;
 
     if (val < newData.value) {
-        newData.children[0] = deleteNode(newData.children[0], val);
+        newData.children[0] = deleteNodeRecur(newData.children[0], val);
     } else if (val > newData.value) {
-        newData.children[1] = deleteNode(newData.children[1], val);
+        newData.children[1] = deleteNodeRecur(newData.children[1], val);
     } else {
         if (newData.children[0].value == null) {
-            let temp = newData.children[1];
-            return temp;
+            return newData.children[1];
         } else if (newData.children[1].value == null) {
-            let temp = newData.children[0];
-            return temp;
+            return newData.children[0];
         }
 
         // Both children Exist
@@ -245,13 +238,13 @@ function deleteNode(newData, val) {
         return newData;
     }
     return newData;
-}
+};
 
-function deletionAnimation() {
+const deleteNode = async () => {
     let val = document.getElementById('DeleteNodeField').value;
     if (val == '') return;
     if (isNaN(val)) {
-        alert('Only integers can be Inserted');
+        alert('Only integer values are allowed');
         return;
     }
     val = parseInt(val);
@@ -260,44 +253,41 @@ function deletionAnimation() {
 
     let oldData = $.extend(true, {}, data);
     let newData = $.extend(true, {}, data);
-    let temp = newData;
+    let node = newData;
     let parent = null;
-    let DeleteNodeInterval = setInterval(() => {
-        if (temp.value == null) {
+    while (true) {
+        if (node.value == null) {
             alert('Value is not present in tree');
             update(oldData, newData, -1, -1);
-            unfreezeButtons();
-            clearInterval(DeleteNodeInterval);
+            break;
         } else {
-            let node = document.getElementById('circle' + temp.value);
-            node.style.fill = 'red';
-            node.style.fillOpacity = 0.6;
-            node.style.stroke = 'red';
-            parent = temp;
-            if (temp.value == val) {
-                clearInterval(DeleteNodeInterval);
-                setTimeout(() => {
-                    newData = deleteNode(newData, val);
+            let nodeEle = document.getElementById(`node${node.id}`);
+            if (nodeEle) nodeEle.className.baseVal = 'highlightedNode';
 
-                    update(oldData, newData, -1, -1);
-                    unfreezeButtons();
-                }, 1000);
+            parent = node;
+
+            if (node.value == val) {
+                await sleep(500);
+                newData = deleteNodeRecur(newData, val);
+                update(oldData, newData, -1, -1);
+                break;
             } else {
-                if (temp.value > val) {
-                    temp = temp.children[0];
+                if (node.value > val) {
+                    node = node.children[0];
                 } else {
-                    temp = temp.children[1];
+                    node = node.children[1];
                 }
-
-                let link = document.getElementById(`linkS${parent.value}D${temp.value}`);
-                $(link).addClass('LinkAnimation');
+                let linkElement = document.getElementById(`link_Source_${parent.id}_Dest_${node.id}`);
+                if (linkElement) linkElement.className.baseVal = 'LinkAnimation';
             }
         }
-    }, 1000);
-}
+        await sleep(750);
+    }
+    unfreezeButtons();
+};
 
 document.getElementById('InsertButton').addEventListener('click', addNode);
-document.getElementById('DeleteButton').addEventListener('click', deletionAnimation);
+document.getElementById('DeleteButton').addEventListener('click', deleteNode);
 
 $(document).ready(function () {
     // if during inserting or deleting user presses enter key then click on button.
@@ -308,3 +298,14 @@ $(document).ready(function () {
         if (e.keyCode == 13) $('#DeleteButton').click();
     });
 });
+
+
+
+async function init() {
+    let list = [15, 7,25, 4,10,20,30 ,2,6,8,13,18,22,28,35];
+    for (let i = 0; i < list.length; i++) {
+        document.getElementById('InsertNodeField').value = list[i];
+        await addNode();
+    }
+}
+// init();

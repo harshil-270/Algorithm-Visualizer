@@ -65,7 +65,6 @@ body {
     background-color: rgb(128, 0, 167);
 }
 .button {
-    margin-top: 10px;
     width: 130px;
     height: 40px;
     font-size: 18px;
@@ -90,7 +89,6 @@ body {
 }
 #buttonsdiv {
     text-align: center;
-    margin-bottom: 15px;
 }
 #visualizeButton {
     margin-right: 10px;

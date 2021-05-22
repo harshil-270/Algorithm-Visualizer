@@ -45,6 +45,7 @@ body {
 .algo-container {
     flex: 25%;
     display: inline-block;
+    font-weight: bold;
 }
 
 .imageContainer {

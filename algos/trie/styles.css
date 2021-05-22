@@ -56,14 +56,13 @@ body {
 .Canvas {
     width: 100%;
     flex: 1 1 auto;
-    /* max-width: 1200px; */
-    /* height: 610px; */
     background-color: #212833;
     overflow: hidden;
     margin-left: auto;
     margin-right: auto;
     position: relative;
 }
+
 .indicator {
     position: absolute;
 }
@@ -78,8 +77,6 @@ svg {
     height: 100%;
     overflow: scroll;
 }
-
-
 
 .node circle {
     fill: #ffffff;
