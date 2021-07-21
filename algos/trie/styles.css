@@ -28,6 +28,10 @@ body {
     position: relative;
 }
 
+a {
+    text-decoration: none;
+}
+
 #title {
     text-align: center;
     font-size: 27px;

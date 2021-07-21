@@ -19,6 +19,9 @@ body {
     height: 100%;
 }
 
+a {
+    text-decoration: none;
+}
 #header {
     width: 100%;
     flex: 0 1 70px;
