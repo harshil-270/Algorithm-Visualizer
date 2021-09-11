@@ -1,125 +1,125 @@
 * {
-    padding: 0;
-    margin: 0;
+  padding: 0;
+  margin: 0;
 }
 
 html,
 body {
-    height: 100%;
-    min-height: 100%;
+  height: 100%;
+  min-height: 100%;
 }
 
 body {
-    background-color: #212833;
+  background-color: #212833;
 }
 
 .container {
-    display: flex;
-    flex-flow: column;
-    height: 100%;
+  display: flex;
+  flex-flow: column;
+  height: 100%;
 }
 
 #header {
-    width: 100%;
-    flex: 0 1 70px;
-    height: 70px;
-    overflow: hidden;
-    background-color: white;
-    position: relative;
+  width: 100%;
+  flex: 0 1 70px;
+  height: 70px;
+  overflow: hidden;
+  background-color: white;
+  position: relative;
 }
 
 a {
-    text-decoration: none;
+  text-decoration: none;
 }
 
 #title {
-    text-align: center;
-    font-size: 27px;
-    color: black;
-    padding-top: 20px;
-    font-weight: bold;
+  text-align: center;
+  font-size: 27px;
+  color: black;
+  padding-top: 20px;
+  font-weight: bold;
 }
 
 #OperationContainer {
-    position: absolute;
-    top: 25px;
-    left: 20px;
+  position: absolute;
+  top: 25px;
+  left: 20px;
 }
 
 .button {
-    width: 55px;
+  width: 55px;
 }
 #InsertNodeField,
 #DeleteNodeField {
-    width: 90px;
+  width: 90px;
 }
 #DeleteNodeField {
-    margin-left: 10px;
+  margin-left: 10px;
 }
 
 .Canvas {
-    width: 100%;
-    flex: 1 1 auto;
-    background-color: #212833;
-    overflow: hidden;
-    margin-left: auto;
-    margin-right: auto;
-    position: relative;
+  width: 100%;
+  flex: 1 1 auto;
+  background-color: #212833;
+  overflow: hidden;
+  margin-left: auto;
+  margin-right: auto;
+  position: relative;
 }
 
 .indicator {
-    position: absolute;
+  position: absolute;
 }
 .indicator text {
-    font-size: 20px !important;
+  font-size: 20px !important;
 }
 
 svg {
-    margin-top: 5px;
-    width: 100%;
-    /* max-width: 1200px; */
-    height: 100%;
-    overflow: scroll;
+  margin-top: 5px;
+  width: 100%;
+  /* max-width: 1200px; */
+  height: 100%;
+  overflow: scroll;
 }
 
 .node circle {
-    fill: #ffffff;
-    stroke: #ff7d12;
-    stroke-width: 1px;
+  fill: #ffffff;
+  stroke: #ff7d12;
+  stroke-width: 1px;
 }
-.node text{
-    font-size: 22px;
-    fill: rgb(250, 7, 7);
+.node text {
+  font-size: 22px;
+  fill: rgb(250, 7, 7);
 }
 
 .endOfWordNode circle {
-    fill: #00911d;
-    stroke: #ffffff;
-    stroke-width: 1px;
+  fill: #00911d;
+  stroke: #ffffff;
+  stroke-width: 1px;
 }
 .endOfWordNode text {
-    font-size: 23px;
-    fill: #ffffff;
+  font-size: 23px;
+  fill: #ffffff;
 }
 
 .highlightedNode circle {
-    fill: red;
-    stroke: red;
-    stroke-width: 2px;
+  fill: red;
+  stroke: red;
+  stroke-width: 2px;
 }
 .highlightedNode text {
-    font-size: 23px;
-    fill: white;
+  font-size: 23px;
+  fill: white;
 }
 
 line {
-    stroke: #099b96;
+  stroke: #099b96;
 }
 
 .null-node,
 .null-link {
-    visibility: hidden;
+  visibility: hidden;
 }
 text {
-    fill: #ffffff;
+  fill: #ffffff;
 }
