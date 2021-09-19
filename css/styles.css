@@ -32,6 +32,7 @@ body {
   padding-top: 20px;
   font-weight: bold;
 }
+
 #container {
   flex: 1 1 auto;
   display: flex;
@@ -53,10 +54,12 @@ body {
   margin: 10px auto;
   /* border: 2px solid black ; */
 }
+
 .imageContainer:hover {
   max-width: 97%;
   animation: transition 0.2s;
 }
+
 .image {
   max-width: 100%;
   max-height: 100%;
