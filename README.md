@@ -4,6 +4,11 @@
 View Algorithm Visualizer
 https://harshil-270.github.io/Algorithm-Visualizer/
 
+### TODO
+
+- [ ] Add instructions in all visualizer to make it more user friendly.
+- [ ] Add graph / sorting algorithm description.
+
 <h3>Trie</h3>
 Insert / Delete Word.
 <div>
